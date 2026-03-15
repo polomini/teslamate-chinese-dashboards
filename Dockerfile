@@ -20,8 +20,8 @@ USER grafana
 # 复制中文 Dashboard 到 TeslaMate 标准位置
 COPY grafana/dashboards/zh-cn/*.json /dashboards/
 
-# 复制 Internal Dashboards
-COPY grafana/dashboards/internal/*.json /dashboards/internal/
+# 复制 Internal Dashboards（路径必须为 /dashboards_internal/，provisioning 监听此路径）
+COPY grafana/dashboards/internal/*.json /dashboards_internal/
 
 # 暴露端口
 EXPOSE 3000
