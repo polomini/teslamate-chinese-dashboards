@@ -21,7 +21,7 @@
     },
     {
       "type": "datasource",
-      "id": "postgres",
+      "id": "grafana-postgresql-datasource",
       "name": "PostgreSQL",
       "version": "1.0.0"
     },
@@ -111,7 +111,7 @@
   "panels": [
     {
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "TeslaMate"
       },
       "fieldConfig": {
@@ -240,7 +240,7 @@
         "series": [
           {
             "pointColor": {
-              "field": "Power [kW]",
+              "field": "功率 [kW]",
               "fixed": "super-light-yellow"
             },
             "pointSize": {
@@ -248,20 +248,20 @@
               "max": 100,
               "min": 1
             },
-            "x": "SOC [%]",
-            "y": "Power [kW]"
+            "x": "电量 [%]",
+            "y": "功率 [kW]"
           },
           {
             "pointColor": {
-              "field": "B - SOC [%]"
+              "field": "B - 电量 [%]"
             },
             "pointSize": {
               "fixed": 12,
               "max": 100,
               "min": 1
             },
-            "x": "B - SOC [%]",
-            "y": "B - Avg Power [kW]"
+            "x": "B - 电量 [%]",
+            "y": "B - 平均功率 [kW]"
           }
         ],
         "seriesMapping": "manual",
@@ -275,7 +275,7 @@
         {
           "alias": "",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "TeslaMate"
           },
           "editorMode": "code",
@@ -284,7 +284,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  c.battery_level as \"SOC [%]\",\r\n  round(avg(c.charger_power), 0) AS \"Power [kW]\",\r\n  c.charging_process_id as \"充电进程ID\",\r\n  COALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"充电\",\r\n  p.start_date as \"开始日期\",\r\n  p.end_date as \"结束日期\"\r\nFROM\r\n  charges c\r\nJOIN charging_processes p ON p.id = c.charging_process_id \r\nJOIN addresses a ON a.id = p.address_id\r\nLEFT JOIN geofences g ON g.id = p.geofence_id\r\nWHERE\r\n  $__timeFilter(date)\r\n AND p.car_id = $car_id\r\n AND c.battery_level >= $filter_soc_from AND c.battery_level <= $filter_soc_to\r\n AND charger_power >= $filter_power_from AND charger_power <= $filter_power_to\r\n AND c.fast_charger_present\r\n AND COALESCE(g.name, a.name) ILIKE '%supercharger%' \r\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, p.start_date, p.end_date, to_char(c.date, 'YYYY-MM-dd')",
+          "rawSql": "SELECT\r\n  c.battery_level as \"电量 [%]\",\r\n  round(avg(c.charger_power), 0) AS \"功率 [kW]\",\r\n  c.charging_process_id as \"充电进程ID\",\r\n  COALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"充电\",\r\n  p.start_date as \"开始日期\",\r\n  p.end_date as \"结束日期\"\r\nFROM\r\n  charges c\r\nJOIN charging_processes p ON p.id = c.charging_process_id \r\nJOIN addresses a ON a.id = p.address_id\r\nLEFT JOIN geofences g ON g.id = p.geofence_id\r\nWHERE\r\n  $__timeFilter(date)\r\n AND p.car_id = $car_id\r\n AND c.battery_level >= $filter_soc_from AND c.battery_level <= $filter_soc_to\r\n AND charger_power >= $filter_power_from AND charger_power <= $filter_power_to\r\n AND c.fast_charger_present\r\n AND COALESCE(g.name, a.name) ILIKE '%supercharger%' \r\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, p.start_date, p.end_date, to_char(c.date, 'YYYY-MM-dd')",
           "refId": "A",
           "select": [
             [
@@ -324,7 +324,7 @@
         },
         {
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "TeslaMate"
           },
           "format": "table",
@@ -332,7 +332,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  c.battery_level as \"B - SOC [%]\",\n  PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - Avg Power [kW]\"\nFROM\n  charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n  $__timeFilter(date)\n AND p.car_id = $car_id\n AND c.battery_level >= $filter_soc_from AND c.battery_level <= $filter_soc_to\n AND charger_power >= $filter_power_from AND charger_power <= $filter_power_to\n AND c.fast_charger_present\n AND COALESCE(g.name, a.name) ILIKE '%supercharger%' \nGROUP BY \"B - SOC [%]\"",
+          "rawSql": "SELECT\n  c.battery_level as \"B - 电量 [%]\",\n  PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - 平均功率 [kW]\"\nFROM\n  charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n  $__timeFilter(date)\n AND p.car_id = $car_id\n AND c.battery_level >= $filter_soc_from AND c.battery_level <= $filter_soc_to\n AND charger_power >= $filter_power_from AND charger_power <= $filter_power_to\n AND c.fast_charger_present\n AND COALESCE(g.name, a.name) ILIKE '%supercharger%' \nGROUP BY \"B - 电量 [%]\"",
           "refId": "B",
           "select": [
             [
@@ -361,7 +361,7 @@
     },
     {
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "TeslaMate"
       },
       "fieldConfig": {
@@ -489,27 +489,27 @@
         "series": [
           {
             "pointColor": {
-              "field": "Power [kW]"
+              "field": "功率 [kW]"
             },
             "pointSize": {
               "fixed": 2,
               "max": 100,
               "min": 1
             },
-            "x": "SOC [%]",
-            "y": "Power [kW]"
+            "x": "电量 [%]",
+            "y": "功率 [kW]"
           },
           {
             "pointColor": {
-              "field": "B - Avg Power [kW]"
+              "field": "B - 平均功率 [kW]"
             },
             "pointSize": {
               "fixed": 10,
               "max": 100,
               "min": 1
             },
-            "x": "B - SOC [%]",
-            "y": "B - Avg Power [kW]"
+            "x": "B - 电量 [%]",
+            "y": "B - 平均功率 [kW]"
           }
         ],
         "seriesMapping": "manual",
@@ -523,7 +523,7 @@
         {
           "alias": "",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "TeslaMate"
           },
           "editorMode": "code",
@@ -532,7 +532,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  c.battery_level as \"SOC [%]\",\r\n  round(avg(c.charger_power), 0) AS \"Power [kW]\",\r\n  c.charging_process_id as \"充电进程ID\",\r\n  COALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"充电\",\r\n  p.start_date as \"开始日期\",\r\n  p.end_date as \"结束日期\"\r\nFROM\r\n  charges c\r\nJOIN charging_processes p ON p.id = c.charging_process_id \r\nJOIN addresses a ON a.id = p.address_id\r\nLEFT JOIN geofences g ON g.id = p.geofence_id\r\nWHERE\r\n  $__timeFilter(date)\r\n AND p.car_id = $car_id\r\n AND c.battery_level >= $filter_soc_from AND c.battery_level <= $filter_soc_to\r\n AND charger_power >= $filter_power_from AND charger_power <= $filter_power_to\r\n AND c.fast_charger_present\r\n AND COALESCE(g.name, a.name) NOT ILIKE '%supercharger%' \r\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, p.start_date, p.end_date, to_char(c.date, 'YYYY-MM-dd')",
+          "rawSql": "SELECT\r\n  c.battery_level as \"电量 [%]\",\r\n  round(avg(c.charger_power), 0) AS \"功率 [kW]\",\r\n  c.charging_process_id as \"充电进程ID\",\r\n  COALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"充电\",\r\n  p.start_date as \"开始日期\",\r\n  p.end_date as \"结束日期\"\r\nFROM\r\n  charges c\r\nJOIN charging_processes p ON p.id = c.charging_process_id \r\nJOIN addresses a ON a.id = p.address_id\r\nLEFT JOIN geofences g ON g.id = p.geofence_id\r\nWHERE\r\n  $__timeFilter(date)\r\n AND p.car_id = $car_id\r\n AND c.battery_level >= $filter_soc_from AND c.battery_level <= $filter_soc_to\r\n AND charger_power >= $filter_power_from AND charger_power <= $filter_power_to\r\n AND c.fast_charger_present\r\n AND COALESCE(g.name, a.name) NOT ILIKE '%supercharger%' \r\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, p.start_date, p.end_date, to_char(c.date, 'YYYY-MM-dd')",
           "refId": "A",
           "select": [
             [
@@ -572,7 +572,7 @@
         },
         {
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "TeslaMate"
           },
           "format": "table",
@@ -580,7 +580,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  c.battery_level as \"B - SOC [%]\",\n  PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - Avg Power [kW]\"\nFROM\n  charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n  $__timeFilter(date)\n AND p.car_id = $car_id\n AND c.battery_level >= $filter_soc_from AND c.battery_level <= $filter_soc_to\n AND charger_power >= $filter_power_from AND charger_power <= $filter_power_to\n AND c.fast_charger_present\n AND COALESCE(g.name, a.name) NOT ILIKE '%supercharger%' \nGROUP BY \"B - SOC [%]\"",
+          "rawSql": "SELECT\n  c.battery_level as \"B - 电量 [%]\",\n  PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - 平均功率 [kW]\"\nFROM\n  charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n  $__timeFilter(date)\n AND p.car_id = $car_id\n AND c.battery_level >= $filter_soc_from AND c.battery_level <= $filter_soc_to\n AND charger_power >= $filter_power_from AND charger_power <= $filter_power_to\n AND c.fast_charger_present\n AND COALESCE(g.name, a.name) NOT ILIKE '%supercharger%' \nGROUP BY \"B - 电量 [%]\"",
           "refId": "B",
           "select": [
             [
@@ -626,7 +626,7 @@
     },
     {
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "TeslaMate"
       },
       "description": "本仪表盘用于查看特斯拉超级充电站和其他直流充电站的充电曲线。",
@@ -692,7 +692,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "TeslaMate"
           },
           "format": "table",
@@ -727,7 +727,7 @@
     },
     {
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "TeslaMate"
       },
       "fieldConfig": {
@@ -857,7 +857,7 @@
           "mode": "single",
           "sort": "none"
         },
-        "xField": "Power [kW]",
+        "xField": "功率 [kW]",
         "xTickLabelRotation": 0,
         "xTickLabelSpacing": 0
       },
@@ -865,14 +865,14 @@
       "targets": [
         {
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "TeslaMate"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH power_summary AS (\n    SELECT ROUND(MAX(charges.charger_power) / 5, 0) * 5 AS \"power\"\n    FROM charging_processes\n    LEFT JOIN charges ON charging_processes.id = charges.charging_process_id\n    WHERE $__timeFilter(date) AND charging_processes.car_id = $car_id AND charging_processes.charge_energy_added > 0.01 AND charges.fast_charger_present\n    GROUP BY charging_processes.id\n)\nSELECT power_summary.power AS \"Power [kW]\", COUNT(power_summary.power) AS n\nFROM power_summary\nWHERE power_summary.power >= $filter_power_from AND power_summary.power <= $filter_power_to\nGROUP BY 1\nORDER BY 1 DESC\n",
+          "rawSql": "WITH power_summary AS (\n    SELECT ROUND(MAX(charges.charger_power) / 5, 0) * 5 AS \"power\"\n    FROM charging_processes\n    LEFT JOIN charges ON charging_processes.id = charges.charging_process_id\n    WHERE $__timeFilter(date) AND charging_processes.car_id = $car_id AND charging_processes.charge_energy_added > 0.01 AND charges.fast_charger_present\n    GROUP BY charging_processes.id\n)\nSELECT power_summary.power AS \"功率 [kW]\", COUNT(power_summary.power) AS n\nFROM power_summary\nWHERE power_summary.power >= $filter_power_from AND power_summary.power <= $filter_power_to\nGROUP BY 1\nORDER BY 1 DESC\n",
           "refId": "A",
           "select": [
             [
@@ -909,7 +909,7 @@
       {
         "current": {},
         "datasource": {
-          "type": "postgres",
+          "type": "grafana-postgresql-datasource",
           "uid": "TeslaMate"
         },
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
@@ -932,7 +932,7 @@
       {
         "current": {},
         "datasource": {
-          "type": "postgres",
+          "type": "grafana-postgresql-datasource",
           "uid": "TeslaMate"
         },
         "definition": "select base_url from settings limit 1;",
