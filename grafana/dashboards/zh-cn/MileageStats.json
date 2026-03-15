@@ -15,7 +15,7 @@
     },
     {
       "type": "datasource",
-      "id": "postgres",
+      "id": "grafana-postgresql-datasource",
       "name": "PostgreSQL",
       "version": "1.0.0"
     },
@@ -852,7 +852,7 @@
               "names": [
                 "sum_distance_km",
                 "cnt",
-                "Period"
+                "周期"
               ]
             }
           }
