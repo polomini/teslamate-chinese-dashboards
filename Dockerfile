@@ -17,9 +17,5 @@ COPY grafana/dashboards/zh-cn/*.json /dashboards/
 # 复制 Internal Dashboards
 COPY grafana/dashboards/internal/*.json /dashboards/internal/
 
-# 覆盖基础镜像的 datasource.yml，加入显式 uid: TeslaMate
-# 避免 Grafana 自动生成随机 UID 导致仪表板无数据
-COPY grafana/provisioning/datasources/datasource.yml /etc/grafana/provisioning/datasources/datasource.yml
-
 # 暴露端口
 EXPOSE 3000
