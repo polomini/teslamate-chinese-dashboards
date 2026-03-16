@@ -459,8 +459,7 @@ teslamate-chinese-dashboards/
 │       │   └── ... (共31个)
 │       └── internal/           # 3个内部详情页 → 挂载到 /dashboards_internal/
 │           ├── drive-details.json
-│           ├── charge-details.json
-│           └── charge-details-solar.json
+│           └── charge-details.json
 └── .github/
     └── workflows/
         └── ghcr-build.yml      # GitHub Actions 自动构建

@@ -2412,7 +2412,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Location"
+                "value": "位置"
               }
             ]
           },
@@ -2424,7 +2424,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Charged"
+                "value": "充电量"
               },
               {
                 "id": "custom.width",
@@ -2567,7 +2567,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Location"
+                "value": "位置"
               }
             ]
           },
@@ -2579,7 +2579,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Charged"
+                "value": "充电量"
               },
               {
                 "id": "custom.width",
@@ -2722,7 +2722,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Location"
+                "value": "位置"
               }
             ]
           },
@@ -2734,7 +2734,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Charged"
+                "value": "充电量"
               },
               {
                 "id": "custom.width",
@@ -2877,7 +2877,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Location"
+                "value": "位置"
               }
             ]
           },
@@ -2889,7 +2889,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Charged"
+                "value": "充电量"
               },
               {
                 "id": "custom.width",

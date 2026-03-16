@@ -2135,7 +2135,7 @@
               },
               {
                 "id": "displayName",
-                "value": "SOC"
+                "value": "电量"
               },
               {
                 "id": "custom.cellOptions",
@@ -2365,7 +2365,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "SOC"
+                "value": "电量"
               },
               {
                 "id": "unit",

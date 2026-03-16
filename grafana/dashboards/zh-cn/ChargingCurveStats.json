@@ -777,7 +777,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Number of times"
+                "value": "充电次数"
               }
             ]
           },
