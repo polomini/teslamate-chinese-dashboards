@@ -1,9 +1,11 @@
 # TeslaMate 中文 Grafana Dashboard
 
-简体中文汉化版 TeslaMate Grafana Dashboard - 开箱即用
+**TeslaMate Chinese Grafana Dashboards** — Simplified Chinese localization for TeslaMate, ready to use out of the box.
+
+简体中文汉化版 TeslaMate Grafana Dashboard - 开箱即用 | 31个仪表板 100% 汉化 | 支持 Docker 一键部署
 
 > 🚗 基于 [TeslaMate](https://github.com/teslamate-org/teslamate) 项目的 Grafana Dashboard 汉化版本
-> 
+>
 > 📖 原版文档: https://docs.teslamate.org
 
 ![GitHub Stars](https://img.shields.io/github/stars/wjsall/teslamate-chinese-dashboards?style=social)
