@@ -3077,7 +3077,8 @@
         "query": "SELECT\n    id as __value,\n    CASE WHEN COUNT(id) OVER (PARTITION BY name) > 1 AND name IS NOT NULL THEN CONCAT(name, ' - ', RIGHT(vin, 6)) ELSE COALESCE(name, CONCAT('VIN ', vin)) end as __text \nFROM cars\nORDER BY display_priority ASC, name ASC, vin ASC;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -3094,7 +3095,8 @@
         "query": "select unit_of_temperature from settings limit 1;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -3111,7 +3113,8 @@
         "query": "select unit_of_length from settings limit 1;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -3127,7 +3130,8 @@
         "query": "select case when unit_of_length = 'km' then 'm' when unit_of_length = 'mi' then 'ft' end  from settings limit 1;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -3143,7 +3147,8 @@
         "query": "select preferred_range from settings limit 1;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -3159,7 +3164,8 @@
         "query": "select base_url from settings limit 1;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -3175,7 +3181,8 @@
         "query": "with last_drives as (select start_date from drives order by start_date desc limit 3)\nselect extract(epoch from min(start_date)) * 1000 from last_drives;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       }
     ]
   },

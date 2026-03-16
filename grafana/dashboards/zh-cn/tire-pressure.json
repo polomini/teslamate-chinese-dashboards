@@ -475,7 +475,8 @@
         "tagValuesQuery": "",
         "tagsQuery": "",
         "type": "query",
-        "useTags": false
+        "useTags": false,
+        "regexApplyTo": "value"
       },
       {
         "current": {
@@ -502,7 +503,8 @@
         "tagValuesQuery": "",
         "tagsQuery": "",
         "type": "query",
-        "useTags": false
+        "useTags": false,
+        "regexApplyTo": "value"
       },
       {
         "current": {
@@ -525,7 +527,8 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       }
     ]
   },

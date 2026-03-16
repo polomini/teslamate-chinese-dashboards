@@ -356,7 +356,8 @@
         "query": "SELECT\n    id as __value,\n    CASE WHEN COUNT(id) OVER (PARTITION BY name) > 1 AND name IS NOT NULL THEN CONCAT(name, ' - ', RIGHT(vin, 6)) ELSE COALESCE(name, CONCAT('VIN ', vin)) end as __text \nFROM cars\nORDER BY display_priority ASC, name ASC, vin ASC;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -372,7 +373,8 @@
         "query": "select base_url from settings limit 1;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {
@@ -464,7 +466,8 @@
         "query": "select ((${__to:date:seconds} - ${__from:date:seconds}) / 86400 / $intervals_moving_average_percentiles)",
         "refresh": 2,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       }
     ]
   },

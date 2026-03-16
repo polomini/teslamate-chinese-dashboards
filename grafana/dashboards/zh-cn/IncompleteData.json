@@ -546,7 +546,8 @@
         "tagValuesQuery": "",
         "tagsQuery": "",
         "type": "query",
-        "useTags": false
+        "useTags": false,
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -568,7 +569,8 @@
         "tagValuesQuery": "",
         "tagsQuery": "",
         "type": "query",
-        "useTags": false
+        "useTags": false,
+        "regexApplyTo": "value"
       }
     ]
   },

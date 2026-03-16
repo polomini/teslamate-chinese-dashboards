@@ -1668,7 +1668,8 @@
         "query": "select unit_of_length from settings limit 1;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -1684,7 +1685,8 @@
         "query": "SELECT\n    id as __value,\n    CASE WHEN COUNT(id) OVER (PARTITION BY name) > 1 AND name IS NOT NULL THEN CONCAT(name, ' - ', RIGHT(vin, 6)) ELSE COALESCE(name, CONCAT('VIN ', vin)) end as __text \nFROM cars\nORDER BY display_priority ASC, name ASC, vin ASC;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -1700,7 +1702,8 @@
         "query": "SELECT\n    CASE WHEN $pg_stat_statements_enabled = 1 THEN 'SELECT stats_reset FROM pg_stat_statements_info;' else 'SELECT NULL;' end",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -1716,7 +1719,8 @@
         "query": "SELECT\n    CASE WHEN $pg_stat_statements_enabled = 1 THEN 'SELECT count(*) FROM pg_stat_statements;' else 'SELECT NULL;' end",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -1732,7 +1736,8 @@
         "query": "SELECT\n    CASE WHEN $pg_stat_statements_enabled = 1 THEN 'select\n  calls as \"Calls\",\n  mean_exec_time as \"Mean Exec Time\",\n  total_exec_time as \"Total Exec Time\",\n  query as \"Query\"\nfrom pg_stat_statements\nORDER BY mean_exec_time desc\nlimit 20;' else 'SELECT NULL;' end",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -1748,7 +1753,8 @@
         "query": "SELECT\n    CASE WHEN $pg_stat_statements_enabled = 1 THEN 'select\n  calls as \"Calls\",\n  mean_exec_time as \"Mean Exec Time\",\n  total_exec_time as \"Total Exec Time\",\n  query as \"Query\"\nfrom pg_stat_statements\nORDER BY total_exec_time desc\nlimit 20;' else 'SELECT NULL;' end",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -1764,7 +1770,8 @@
         "query": "SELECT EXISTS (\nSELECT 1\nFROM information_schema.tables\nWHERE table_name = 'pg_stat_statements'\n)::int AS table_existence",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       },
       {
         "current": {},
@@ -1780,7 +1787,8 @@
         "query": "select base_url from settings limit 1;",
         "refresh": 1,
         "regex": "",
-        "type": "query"
+        "type": "query",
+        "regexApplyTo": "value"
       }
     ]
   },
