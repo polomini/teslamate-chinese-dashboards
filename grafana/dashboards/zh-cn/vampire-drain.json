@@ -206,7 +206,7 @@
               },
               {
                 "id": "unit",
-                "value": "h"
+                "value": "s"
               },
               {
                 "id": "decimals",
@@ -228,7 +228,7 @@
                     },
                     {
                       "color": "#56A64B",
-                      "value": 12
+                      "value": 43200
                     }
                   ]
                 }
