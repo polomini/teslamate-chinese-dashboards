@@ -335,7 +335,60 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "WITH drive_version AS (\n  SELECT\n    d.id AS drive_id,\n    COALESCE(\n      (SELECT u.version FROM updates u\n       WHERE u.car_id = $car_id AND u.start_date <= d.start_date\n       ORDER BY u.start_date DESC LIMIT 1),\n      '未知版本'\n    ) AS fw_version\n  FROM drives d\n  WHERE d.car_id = $car_id\n    AND $__timeFilter(d.start_date)\n    AND d.end_date IS NOT NULL\n)\nSELECT\n  dv.fw_version AS \"固件版本\",\n  ROUND(MAX(ABS(p.power))::numeric, 1) AS \"最大回收功率(kW)\"\nFROM positions p\nJOIN drive_version dv ON dv.drive_id = p.drive_id\nWHERE p.power < 0\nGROUP BY dv.fw_version\nORDER BY dv.fw_version;",
+          "rawSql": "WITH drive_version AS (\n  SELECT\n    d.id AS drive_id,\n    COALESCE(\n      (SELECT u.version FROM updates u\n       WHERE u.car_id = $car_id AND u.start_date <= d.start_date\n       ORDER BY u.start_date DESC LIMIT 1),\n      '未知版本'\n    ) AS fw_version\n  FROM drives d\n  WHERE d.car_id = $car_id\n    AND d.end_date IS NOT NULL\n)\nSELECT\n  dv.fw_version AS \"固件版本\",\n  ROUND(MAX(ABS(p.power))::numeric, 1) AS \"最大回收功率(kW)\"\nFROM positions p\nJOIN drive_version dv ON dv.drive_id = p.drive_id\nWHERE p.power < 0\nGROUP BY dv.fw_version\nORDER BY dv.fw_version DESC;",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "最大回收功率(kW)",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineWidth": 1,
+            "scaleDistribution": {"type": "linear"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "mappings": [],
+          "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}]},
+          "unit": "none",
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 15},
+      "id": 13,
+      "description": "按历史最大回收功率从高到低排序，可快速找出哪个版本回收峰值最强。数据不受时间范围过滤影响，展示全历史记录。",
+      "options": {
+        "barRadius": 0.05,
+        "barWidth": 0.7,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": false},
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {"mode": "single", "sort": "none"},
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 200
+      },
+      "title": "各固件版本最大回收功率排名(kW)",
+      "type": "barchart",
+      "targets": [
+        {
+          "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH drive_version AS (\n  SELECT\n    d.id AS drive_id,\n    COALESCE(\n      (SELECT u.version FROM updates u\n       WHERE u.car_id = $car_id AND u.start_date <= d.start_date\n       ORDER BY u.start_date DESC LIMIT 1),\n      '未知版本'\n    ) AS fw_version\n  FROM drives d\n  WHERE d.car_id = $car_id\n    AND d.end_date IS NOT NULL\n)\nSELECT\n  dv.fw_version AS \"固件版本\",\n  ROUND(MAX(ABS(p.power))::numeric, 1) AS \"最大回收功率(kW)\"\nFROM positions p\nJOIN drive_version dv ON dv.drive_id = p.drive_id\nWHERE p.power < 0\nGROUP BY dv.fw_version\nORDER BY \"最大回收功率(kW)\" DESC;",
           "refId": "A"
         }
       ]
