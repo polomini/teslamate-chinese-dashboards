@@ -36,9 +36,9 @@
         "defaults": {
           "color": {"mode": "thresholds"},
           "thresholds": {"mode": "absolute", "steps": [{"color": "blue"}]},
-          "unit": "lengthkm",
+          "unit": "none",
           "decimals": 0,
-          "displayName": "年度总里程"
+          "displayName": "年度总里程(km)"
         },
         "overrides": []
       },
@@ -72,9 +72,9 @@
         "defaults": {
           "color": {"mode": "thresholds"},
           "thresholds": {"mode": "absolute", "steps": [{"color": "blue"}]},
-          "unit": "short",
+          "unit": "none",
           "decimals": 0,
-          "displayName": "总行程次数"
+          "displayName": "总行程次数(次)"
         },
         "overrides": []
       },
@@ -108,9 +108,9 @@
         "defaults": {
           "color": {"mode": "thresholds"},
           "thresholds": {"mode": "absolute", "steps": [{"color": "green"}]},
-          "unit": "kwatth",
+          "unit": "none",
           "decimals": 1,
-          "displayName": "年度总充电量"
+          "displayName": "年度总充电量(kWh)"
         },
         "overrides": []
       },
@@ -189,9 +189,9 @@
         "defaults": {
           "color": {"mode": "thresholds"},
           "thresholds": {"mode": "absolute", "steps": [{"color": "purple"}]},
-          "unit": "lengthkm",
+          "unit": "none",
           "decimals": 1,
-          "displayName": "最远单次行程"
+          "displayName": "最远单次行程(km)"
         },
         "overrides": []
       },
@@ -263,7 +263,7 @@
           "thresholds": {"mode": "absolute", "steps": [{"color": "green"}]},
           "unit": "none",
           "decimals": 1,
-          "displayName": "年均能耗"
+          "displayName": "年均能耗(Wh/km)"
         },
         "overrides": []
       },
@@ -297,9 +297,9 @@
         "defaults": {
           "color": {"mode": "thresholds"},
           "thresholds": {"mode": "absolute", "steps": [{"color": "blue"}]},
-          "unit": "short",
+          "unit": "none",
           "decimals": 0,
-          "displayName": "充电次数"
+          "displayName": "充电次数(次)"
         },
         "overrides": []
       },
@@ -341,8 +341,8 @@
       "fieldConfig": {
         "defaults": {
           "color": {"mode": "palette-classic"},
-          "custom": {"fillOpacity": 70},
-          "unit": "lengthkm",
+          "custom": {"fillOpacity": 70, "axisLabel": "里程(km)"},
+          "unit": "none",
           "decimals": 0
         },
         "overrides": []
@@ -422,7 +422,7 @@
         "overrides": [
           {"matcher": {"id": "byName", "options": "address"}, "properties": [{"id": "displayName", "value": "目的地"}, {"id": "custom.minWidth", "value": 250}]},
           {"matcher": {"id": "byName", "options": "visit_count"}, "properties": [{"id": "displayName", "value": "到访次数"}]},
-          {"matcher": {"id": "byName", "options": "total_km"}, "properties": [{"id": "displayName", "value": "累计里程"}, {"id": "unit", "value": "lengthkm"}, {"id": "decimals", "value": 0}]}
+          {"matcher": {"id": "byName", "options": "total_km"}, "properties": [{"id": "displayName", "value": "累计里程(km)"}, {"id": "unit", "value": "none"}, {"id": "decimals", "value": 0}]}
         ]
       },
       "gridPos": {"h": 10, "w": 12, "x": 0, "y": 20},
@@ -459,7 +459,7 @@
         "overrides": [
           {"matcher": {"id": "byName", "options": "address"}, "properties": [{"id": "displayName", "value": "充电站"}, {"id": "custom.minWidth", "value": 250}]},
           {"matcher": {"id": "byName", "options": "charge_count"}, "properties": [{"id": "displayName", "value": "充电次数"}]},
-          {"matcher": {"id": "byName", "options": "total_kwh"}, "properties": [{"id": "displayName", "value": "总充电量"}, {"id": "unit", "value": "kwatth"}, {"id": "decimals", "value": 1}]}
+          {"matcher": {"id": "byName", "options": "total_kwh"}, "properties": [{"id": "displayName", "value": "总充电量(kWh)"}, {"id": "unit", "value": "none"}, {"id": "decimals", "value": 1}]}
         ]
       },
       "gridPos": {"h": 10, "w": 12, "x": 12, "y": 20},
