@@ -232,6 +232,7 @@
           "refId": "B"
         }
       ],
+      "description": "燃油等价费用根据里程×油耗×油价估算；实际充电费用需在 TeslaMate 中手动录入，未录入时显示为0。",
       "title": "月度费用对比（燃油 vs 实际充电）",
       "type": "timeseries"
     },
@@ -266,6 +267,7 @@
           "sql": {"columns": [{"parameters": [], "type": "function"}], "groupBy": [{"property": {"type": "string"}, "type": "groupBy"}], "limit": 50}
         }
       ],
+      "description": "按充电开始时间段统计费用分布。需在 TeslaMate 中手动录入每次充电费用后才会显示数据。",
       "title": "充电时段费用分布",
       "type": "piechart"
     },
