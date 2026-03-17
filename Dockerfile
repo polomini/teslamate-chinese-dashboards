@@ -11,8 +11,11 @@ ENV GF_DEFAULT_LANGUAGE=zh-Hans
 ENV GF_USERS_DEFAULT_LANGUAGE=zh-Hans
 ENV GF_USERS_DEFAULT_LOCALE=zh-Hans
 
-# 直接覆盖数据源配置，确保 UID 固定为 TeslaMate，避免 sed 在不同基础镜像格式下失败
+# 清除基础镜像自带的所有数据源配置（避免 TeslaMate.yml 等旧文件与新配置同时加载导致 ×2 报错）
+# 再写入唯一的数据源配置文件
 USER root
+RUN rm -f /etc/grafana/provisioning/datasources/*.yml \
+          /etc/grafana/provisioning/datasources/*.yaml
 COPY grafana/provisioning/datasources/datasource.yml \
      /etc/grafana/provisioning/datasources/datasource.yml
 USER grafana
