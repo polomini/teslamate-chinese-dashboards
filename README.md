@@ -455,7 +455,6 @@ teslamate-chinese-dashboards/
 ├── LICENSE                      # MIT许可证
 ├── Dockerfile                   # Docker镜像构建
 ├── simple-deploy.sh            # 一键安装脚本
-├── docker-compose.yml          # Docker Compose配置
 ├── grafana/
 │   └── dashboards/
 │       ├── zh-cn/              # 31个主要汉化Dashboard → 挂载到 /dashboards/

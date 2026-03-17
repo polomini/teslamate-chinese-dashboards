@@ -95,9 +95,11 @@ services:
     volumes:
       - ./grafana-data:/var/lib/grafana
     environment:
-      - GF_USERS_DEFAULT=admin
+      - DATABASE_USER=teslamate
+      - DATABASE_PASS=password
+      - DATABASE_NAME=teslamate
+      - DATABASE_HOST=database
       - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_INSTALL_PLUGINS=grafana-worldmap-panel
       - GF_DEFAULT_LANGUAGE=zh-Hans
     depends_on:
       - teslamate

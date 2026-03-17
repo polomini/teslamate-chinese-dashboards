@@ -1634,7 +1634,7 @@
               }
             ]
           },
-          "unit": "dtdurations"
+          "unit": "string"
         },
         "overrides": [
           {
@@ -1666,11 +1666,9 @@
         "orientation": "horizontal",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
+          "calcs": [],
+          "fields": "/.*/",
+          "values": true
         },
         "showPercentChange": false,
         "textMode": "auto",
@@ -1686,7 +1684,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT ((DATE_PART('day', end_date - start_date) * 24 + \n                DATE_PART('hour', end_date - start_date)) * 60 +\n                DATE_PART('minute', end_date - start_date)) * 60 +\n                DATE_PART('second', end_date - start_date) as sec_diff\nFROM drives\nWHERE drives.id = $drive_id;",
+          "rawSql": "SELECT\n  CASE WHEN floor(secs / 86400) > 0 THEN floor(secs / 86400)::text || '天' ELSE '' END ||\n  floor(mod(secs, 86400) / 3600)::text || '时' ||\n  floor(mod(secs, 3600) / 60)::text || '分'\nFROM (\n  SELECT ((DATE_PART('day', end_date - start_date) * 24 +\n            DATE_PART('hour', end_date - start_date)) * 60 +\n            DATE_PART('minute', end_date - start_date)) * 60 +\n           DATE_PART('second', end_date - start_date) AS secs\n  FROM drives\n  WHERE id = $drive_id\n) sub",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1732,7 +1730,7 @@
               }
             ]
           },
-          "unit": "dtdurations"
+          "unit": "string"
         },
         "overrides": []
       },
@@ -1750,11 +1748,9 @@
         "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
+          "calcs": [],
+          "fields": "/.*/",
+          "values": true
         },
         "showPercentChange": false,
         "textMode": "auto",
@@ -1770,7 +1766,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT ${__to:date:seconds} - ${__from:date:seconds}",
+          "rawSql": "SELECT\n  CASE WHEN floor(secs / 86400) > 0 THEN floor(secs / 86400)::text || '天' ELSE '' END ||\n  floor(mod(secs, 86400) / 3600)::text || '时' ||\n  floor(mod(secs, 3600) / 60)::text || '分'\nFROM (SELECT (${__to:date:seconds} - ${__from:date:seconds}) AS secs) sub",
           "refId": "A",
           "sql": {
             "columns": [
