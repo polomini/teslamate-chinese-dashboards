@@ -288,8 +288,61 @@
       ]
     },
     {
+      "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "最大回收功率(kW)",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineWidth": 1,
+            "scaleDistribution": {"type": "linear"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "mappings": [],
+          "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}]},
+          "unit": "none",
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 15},
+      "id": 12,
+      "description": "各固件版本下记录到的最大瞬时回收功率(kW)。数值下降说明新版本限制了回收峰值功率。",
+      "options": {
+        "barRadius": 0.05,
+        "barWidth": 0.7,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": false},
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {"mode": "single", "sort": "none"},
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 200
+      },
+      "title": "各固件版本最大回收功率(kW)",
+      "type": "barchart",
+      "targets": [
+        {
+          "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH drive_version AS (\n  SELECT\n    d.id AS drive_id,\n    COALESCE(\n      (SELECT u.version FROM updates u\n       WHERE u.car_id = $car_id AND u.start_date <= d.start_date\n       ORDER BY u.start_date DESC LIMIT 1),\n      '未知版本'\n    ) AS fw_version\n  FROM drives d\n  WHERE d.car_id = $car_id\n    AND $__timeFilter(d.start_date)\n    AND d.end_date IS NOT NULL\n)\nSELECT\n  dv.fw_version AS \"固件版本\",\n  ROUND(MAX(ABS(p.power))::numeric, 1) AS \"最大回收功率(kW)\"\nFROM positions p\nJOIN drive_version dv ON dv.drive_id = p.drive_id\nWHERE p.power < 0\nGROUP BY dv.fw_version\nORDER BY dv.fw_version;",
+          "refId": "A"
+        }
+      ]
+    },
+    {
       "collapsed": false,
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 15},
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 23},
       "id": 102,
       "panels": [],
       "title": "每日 / 每周趋势",
@@ -327,7 +380,7 @@
         },
         "overrides": []
       },
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
       "id": 7,
       "options": {
         "legend": {"calcs": ["sum", "mean"], "displayMode": "list", "placement": "bottom", "showLegend": true},
@@ -378,7 +431,7 @@
         },
         "overrides": []
       },
-      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
       "id": 8,
       "options": {
         "legend": {"calcs": ["sum", "mean"], "displayMode": "list", "placement": "bottom", "showLegend": true},
@@ -399,7 +452,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 24},
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 32},
       "id": 103,
       "panels": [],
       "title": "影响因素分析",
@@ -425,7 +478,7 @@
           }
         ]
       },
-      "gridPos": {"h": 9, "w": 12, "x": 0, "y": 25},
+      "gridPos": {"h": 9, "w": 12, "x": 0, "y": 33},
       "id": 9,
       "description": "低温下电池内阻增大，动能回收功率受限，点越靠左回收率越低。",
       "options": {
@@ -471,7 +524,7 @@
         },
         "overrides": []
       },
-      "gridPos": {"h": 9, "w": 12, "x": 12, "y": 25},
+      "gridPos": {"h": 9, "w": 12, "x": 12, "y": 33},
       "id": 10,
       "description": "不同时速区间下的平均回收功率(kW)，高速制动回收更多能量。",
       "options": {
@@ -502,7 +555,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 34},
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 42},
       "id": 104,
       "panels": [],
       "title": "行程明细（回收率 TOP20）",
@@ -550,7 +603,7 @@
           }
         ]
       },
-      "gridPos": {"h": 10, "w": 24, "x": 0, "y": 35},
+      "gridPos": {"h": 10, "w": 24, "x": 0, "y": 43},
       "id": 11,
       "options": {
         "cellHeight": "sm",
