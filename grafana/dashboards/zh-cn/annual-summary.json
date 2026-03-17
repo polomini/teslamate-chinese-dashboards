@@ -290,7 +290,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\n  ROUND((\n    COALESCE(SUM((d.start_ideal_range_km - d.end_ideal_range_km) * c.efficiency), 0)\n    / NULLIF(SUM(d.distance), 0)\n  )::numeric, 1) AS avg_wh_km\nFROM drives d\nJOIN cars c ON c.id = d.car_id\nWHERE d.car_id = $car_id\n  AND EXTRACT(YEAR FROM d.start_date) = $year::int\n  AND d.distance > 0\n  AND d.start_ideal_range_km > d.end_ideal_range_km;",
+          "rawSql": "SELECT\n  ROUND((\n    COALESCE(SUM((d.start_ideal_range_km - d.end_ideal_range_km) * c.efficiency), 0)\n    / NULLIF(SUM(d.distance), 0)\n    * 1000\n  )::numeric, 1) AS avg_wh_km\nFROM drives d\nJOIN cars c ON c.id = d.car_id\nWHERE d.car_id = $car_id\n  AND EXTRACT(YEAR FROM d.start_date) = $year::int\n  AND d.distance > 0\n  AND d.start_ideal_range_km > d.end_ideal_range_km;",
           "refId": "A",
           "sql": {"columns": [{"parameters": [], "type": "function"}], "groupBy": [{"property": {"type": "string"}, "type": "groupBy"}], "limit": 50}
         }
