@@ -17,6 +17,27 @@
 
 ## 📸 效果预览
 
+### 🆕 原创分析仪表盘
+
+**年度驾驶报告** — 年度里程 / 充电 / 能耗 / 常去地点 TOP10
+![年度驾驶报告](screenshots/annual-summary.png)
+
+**省钱分析** — 与燃油车对比节省金额、充电时段分布、预算进度
+![省钱分析](screenshots/cost-savings.png)
+
+**充电健康管理** — 充电习惯评分、SOC 分布、充电次数趋势
+![充电健康管理](screenshots/charging-health.png)
+
+**停车掉电分析** — 掉电趋势、区间分布、最耗电停车 TOP20
+![停车掉电分析](screenshots/sentry-drain.png)
+
+**出行规律分析** — 时段分布、工作日 vs 周末、温度与能耗关系
+![出行规律分析](screenshots/driving-patterns.png)
+
+---
+
+### 核心仪表盘
+
 | 概览 | 电池健康度 |
 |------|-----------|
 | ![概览](screenshots/overview.png) | ![电池健康度](screenshots/battery-health.png) |
