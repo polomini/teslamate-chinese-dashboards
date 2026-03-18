@@ -402,7 +402,7 @@
           "thresholds": {"mode": "absolute", "steps": [{"color": "orange"}]},
           "unit": "none",
           "decimals": 2,
-          "displayName": "预测年底总费用(元)"
+          "displayName": "预计全年费用(元)"
         },
         "overrides": []
       },
@@ -428,7 +428,7 @@
           "sql": {"columns": [{"parameters": [], "type": "function"}], "groupBy": [{"property": {"type": "string"}, "type": "groupBy"}], "limit": 50}
         }
       ],
-      "title": "预测年底总费用(元)",
+      "title": "预计全年费用(元)",
       "type": "stat"
     }
   ],
