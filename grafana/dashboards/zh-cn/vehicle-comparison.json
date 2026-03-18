@@ -75,44 +75,31 @@
       "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineWidth": 1,
-            "scaleDistribution": {"type": "linear"},
-            "thresholdsStyle": {"mode": "off"}
-          },
+          "color": {"mode": "thresholds"},
+          "decimals": 0,
           "mappings": [],
           "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}]},
-          "unit": "none",
-          "decimals": 0
+          "unit": "none"
         },
         "overrides": []
       },
       "gridPos": {"h": 8, "w": 12, "x": 0, "y": 9},
       "id": 4,
       "options": {
-        "barRadius": 0.05,
-        "barWidth": 0.7,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": false},
+        "displayMode": "gradient",
+        "legend": {"calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": false},
+        "maxVizHeight": 300,
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
-        "showValue": "always",
-        "stacking": "none",
-        "text": {"valueSize": 14},
-        "tooltip": {"mode": "single", "sort": "none"},
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 200
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": true},
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "title": "各车总里程(km)",
-      "type": "barchart",
+      "type": "bargauge",
       "targets": [
         {
           "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
@@ -129,24 +116,18 @@
       "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineWidth": 1,
-            "scaleDistribution": {"type": "linear"},
-            "thresholdsStyle": {"mode": "off"}
-          },
-          "mappings": [],
-          "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}]},
-          "unit": "none",
+          "color": {"mode": "thresholds"},
           "decimals": 1,
-          "max": 300
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "light-green", "value": null},
+              {"color": "#EAB839", "value": 160},
+              {"color": "light-red", "value": 200}
+            ]
+          },
+          "unit": "none"
         },
         "overrides": []
       },
@@ -154,21 +135,20 @@
       "id": 5,
       "description": "能耗越低越省电。受驾驶风格、路况、温度影响，建议同时段对比更有参考价值。",
       "options": {
-        "barRadius": 0.05,
-        "barWidth": 0.7,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": false},
+        "displayMode": "gradient",
+        "legend": {"calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": false},
+        "maxVizHeight": 300,
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
-        "showValue": "always",
-        "stacking": "none",
-        "text": {"valueSize": 14},
-        "tooltip": {"mode": "single", "sort": "none"},
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 200
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": true},
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "title": "各车平均能耗(Wh/km)",
-      "type": "barchart",
+      "type": "bargauge",
       "targets": [
         {
           "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
@@ -192,23 +172,11 @@
       "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineWidth": 1,
-            "scaleDistribution": {"type": "linear"},
-            "thresholdsStyle": {"mode": "off"}
-          },
+          "color": {"mode": "thresholds"},
+          "decimals": 2,
           "mappings": [],
           "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}]},
-          "unit": "none",
-          "decimals": 2
+          "unit": "none"
         },
         "overrides": []
       },
@@ -216,21 +184,20 @@
       "id": 7,
       "description": "仅统计有费用记录的充电次数，未填写费用的充电不计入。",
       "options": {
-        "barRadius": 0.05,
-        "barWidth": 0.7,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": false},
+        "displayMode": "gradient",
+        "legend": {"calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": false},
+        "maxVizHeight": 300,
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
-        "showValue": "always",
-        "stacking": "none",
-        "text": {"valueSize": 14},
-        "tooltip": {"mode": "single", "sort": "none"},
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 200
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": true},
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "title": "各车充电总费用(元)",
-      "type": "barchart",
+      "type": "bargauge",
       "targets": [
         {
           "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
@@ -247,25 +214,20 @@
       "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineWidth": 1,
-            "scaleDistribution": {"type": "linear"},
-            "thresholdsStyle": {"mode": "off"}
-          },
-          "mappings": [],
-          "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "yellow", "value": 30}, {"color": "red", "value": 50}]},
-          "unit": "none",
+          "color": {"mode": "thresholds"},
           "decimals": 1,
+          "mappings": [],
           "max": 100,
-          "min": 0
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "#EAB839", "value": 30},
+              {"color": "light-red", "value": 50}
+            ]
+          },
+          "unit": "none"
         },
         "overrides": []
       },
@@ -273,21 +235,20 @@
       "id": 8,
       "description": "直流快充(>22kW)次数占总充电次数的比例。建议控制在30%以下，过高会加速电池老化。",
       "options": {
-        "barRadius": 0.05,
-        "barWidth": 0.7,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": false},
+        "displayMode": "gradient",
+        "legend": {"calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": false},
+        "maxVizHeight": 300,
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
-        "showValue": "always",
-        "stacking": "none",
-        "text": {"valueSize": 14},
-        "tooltip": {"mode": "single", "sort": "none"},
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 200
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": true},
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "title": "各车快充比例(%)",
-      "type": "barchart",
+      "type": "bargauge",
       "targets": [
         {
           "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
@@ -311,46 +272,31 @@
       "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineWidth": 1,
-            "scaleDistribution": {"type": "linear"},
-            "thresholdsStyle": {"mode": "off"}
-          },
+          "color": {"mode": "thresholds"},
+          "decimals": 0,
           "mappings": [],
           "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}]},
-          "unit": "none",
-          "decimals": 0,
-          "min": 0,
-          "max": 5000
+          "unit": "none"
         },
         "overrides": []
       },
       "gridPos": {"h": 8, "w": 12, "x": 0, "y": 27},
       "id": 10,
       "options": {
-        "barRadius": 0.05,
-        "barWidth": 0.7,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": false},
+        "displayMode": "gradient",
+        "legend": {"calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": false},
+        "maxVizHeight": 300,
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
-        "showValue": "always",
-        "stacking": "none",
-        "text": {"valueSize": 14},
-        "tooltip": {"mode": "single", "sort": "none"},
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 200
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": true},
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "title": "各车行程次数",
-      "type": "barchart",
+      "type": "bargauge",
       "targets": [
         {
           "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
@@ -367,25 +313,11 @@
       "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineWidth": 1,
-            "scaleDistribution": {"type": "linear"},
-            "thresholdsStyle": {"mode": "off"}
-          },
+          "color": {"mode": "thresholds"},
+          "decimals": 4,
           "mappings": [],
           "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}]},
-          "unit": "none",
-          "decimals": 4,
-          "min": 0,
-          "max": 1
+          "unit": "none"
         },
         "overrides": []
       },
@@ -393,21 +325,20 @@
       "id": 11,
       "description": "每公里实际花费的电费，综合反映能耗效率与充电成本。数值越低越经济。",
       "options": {
-        "barRadius": 0.05,
-        "barWidth": 0.7,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": false},
+        "displayMode": "gradient",
+        "legend": {"calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": false},
+        "maxVizHeight": 300,
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
-        "showValue": "always",
-        "stacking": "none",
-        "text": {"valueSize": 14},
-        "tooltip": {"mode": "single", "sort": "none"},
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 200
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": true},
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "title": "各车每公里电费(元/km)",
-      "type": "barchart",
+      "type": "bargauge",
       "targets": [
         {
           "datasource": {"type": "grafana-postgresql-datasource", "uid": "TeslaMate"},
