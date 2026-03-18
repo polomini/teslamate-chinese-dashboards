@@ -962,7 +962,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COALESCE(a.display_name, '未知地点') AS \"充电站\", COUNT(*) AS \"充电次数\", ROUND(SUM(cp.charge_energy_added)::numeric, 1) AS \"总充电量(kWh)\", ROUND(AVG(cp.duration_min)::numeric, 0) AS \"平均时长(分)\"\nFROM charging_processes cp\nLEFT JOIN addresses a ON cp.address_id = a.id\nWHERE cp.car_id = $car_id AND $__timeFilter(cp.start_date)\nGROUP BY 1\nORDER BY 2 DESC\nLIMIT 30;",
+          "rawSql": "SELECT\n  COALESCE(g.name, a.display_name, '未知地点') AS \"充电站\",\n  COUNT(*) AS \"充电次数\",\n  ROUND(SUM(cp.charge_energy_added)::numeric, 1) AS \"总充电量(kWh)\",\n  ROUND(AVG(cp.duration_min)::numeric, 0) AS \"平均时长(分)\"\nFROM charging_processes cp\nLEFT JOIN addresses a ON cp.address_id = a.id\nLEFT JOIN geofences g ON cp.geofence_id = g.id\nWHERE cp.car_id = $car_id AND $__timeFilter(cp.start_date)\nGROUP BY 1\nORDER BY 2 DESC\nLIMIT 30;",
           "refId": "A",
           "sql": {
             "columns": [
