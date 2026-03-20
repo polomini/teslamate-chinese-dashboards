@@ -3,7 +3,6 @@ apiVersion: 1
 datasources:
   - name: TeslaMate
     type: postgres
-    uid: TeslaMate
     access: proxy
     url: ${DATABASE_HOST}:${DATABASE_PORT}
     user: ${DATABASE_USER}
@@ -22,4 +21,4 @@ datasources:
       connMaxLifetime: 14400
       timescaledb: false
     version: 1
-    editable: false
+    editable: true

@@ -521,8 +521,8 @@ docker compose restart grafana
 ## 📦 版本信息
 
 ### 当前版本
-- **版本号**: v1.3.2
-- **发布日期**: 2026-03-19
+- **版本号**: v1.3.3
+- **发布日期**: 2026-03-20
 - **Dashboard 数量**: 38个（含7个原创分析仪表盘 + 3个内部详情页）
 - **汉化完成度**: 100%
 
@@ -534,6 +534,12 @@ docker compose restart grafana
 - ✅ Docker Compose 2.0+
 
 ### 更新日志
+
+#### v1.3.3 (2026-03-20)
+- 🔧 修复 Grafana 12.4.0 启动报错 "Datasource provisioning error: data source not found"（Issue #3）
+  - 根因：datasource.yml 中显式设置 `uid: TeslaMate` 与 Grafana 12.4.0 provisioning 行为不兼容
+  - 修复：移除显式 `uid` 字段，与官方 teslamate/grafana 镜像配置保持一致
+  - Grafana 在未指定 uid 时自动使用数据源名称 "TeslaMate" 作为 uid，与 Dashboard JSON 引用匹配
 
 #### v1.3.2 (2026-03-19)
 - 🔧 修复 dashboards.yml 路径错误（`/etc/grafana/.../zh-cn` → `/dashboards`，`/internal` → `/dashboards_internal`）
