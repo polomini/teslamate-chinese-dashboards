@@ -716,7 +716,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\n  d.start_date,\n  ROUND(d.distance::numeric, 1) AS distance,\n  d.duration_min,\n  ROUND(d.speed_max::numeric, 0) AS speed_max,\n  ROUND(((d.start_ideal_range_km - d.end_ideal_range_km) * c.efficiency / 1000.0)::numeric, 2) AS energy_used,\n  ROUND(d.outside_temp_avg::numeric, 1) AS outside_temp_avg\nFROM drives d\nJOIN cars c ON c.id = d.car_id\nWHERE d.car_id = $car_id\n  AND $__timeFilter(d.start_date)\n  AND d.distance >= 100\n  AND d.speed_max >= 100\nORDER BY d.distance DESC\nLIMIT 50;",
+          "rawSql": "SELECT\n  d.start_date,\n  ROUND(d.distance::numeric, 1) AS distance,\n  d.duration_min,\n  ROUND(d.speed_max::numeric, 0) AS speed_max,\n  ROUND(((d.start_ideal_range_km - d.end_ideal_range_km) * c.efficiency)::numeric, 2) AS energy_used,\n  ROUND(d.outside_temp_avg::numeric, 1) AS outside_temp_avg\nFROM drives d\nJOIN cars c ON c.id = d.car_id\nWHERE d.car_id = $car_id\n  AND $__timeFilter(d.start_date)\n  AND d.distance >= 100\n  AND d.speed_max >= 100\nORDER BY d.distance DESC\nLIMIT 50;",
           "refId": "A",
           "sql": {
             "columns": [
