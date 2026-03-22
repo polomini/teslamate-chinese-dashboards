@@ -375,6 +375,36 @@ sudo firewall-cmd --reload
 
 ---
 
+### ❌ 反向代理后访问路径报错（子路径部署）
+
+**症状**：通过反向代理将 TeslaMate 部署在子路径下（如 `/teslamate/`），访问时出现资源加载失败或页面空白。
+
+**解决：配置 URL_PATH 环境变量**
+
+在 `docker-compose.yml` 的 `teslamate` 服务中添加：
+
+```yaml
+services:
+  teslamate:
+    environment:
+      # ... 其他配置 ...
+      - URL_PATH=/teslamate
+```
+
+同时需要在反向代理（Nginx/Caddy）中正确配置路径转发，例如 Nginx：
+
+```nginx
+location /teslamate/ {
+    proxy_pass http://localhost:4000/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+}
+```
+
+> **注意**：`URL_PATH` 值不要加末尾斜杠（写 `/teslamate` 而非 `/teslamate/`）。
+
+---
+
 ## 🔄 升级问题
 
 ### 如何升级到新版本
