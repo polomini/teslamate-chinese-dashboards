@@ -299,7 +299,7 @@
         },
         "textMode": "value_and_name"
       },
-      "title": "停车时长对比",
+      "title": "",
       "type": "stat",
       "targets": [
         {
