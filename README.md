@@ -69,6 +69,7 @@
 - ✅ **持续更新** - 通过 git pull 即可获取最新汉化
 - ✅ **深度汉化** - 38个 Dashboard，含7个全新原创分析图表
 - ✅ **完整地图** - 支持 OpenStreetMap 地图服务
+- ✅ **完整适配 TeslaMate 3.0** - 同步官方全部新特性，已验证兼容 Grafana 12.4.0
 
 ## 📊 汉化成果
 
@@ -81,7 +82,7 @@
 | 已汉化 | 258个 (99%+) |
 | 汉化完成度 | 99% |
 | 质量等级 | A+ |
-| 最后更新 | 2026-03-19 |
+| 最后更新 | 2026-03-22 |
 
 **38个 Dashboard 深度汉化，持续优化中，开箱即用！** 🎉
 
@@ -522,24 +523,42 @@ docker compose restart grafana
 
 ### 当前版本
 - **版本号**: v1.3.3
-- **发布日期**: 2026-03-20
+- **发布日期**: 2026-03-22
 - **Dashboard 数量**: 38个（含7个原创分析仪表盘 + 3个内部详情页）
 - **汉化完成度**: 99%
 
 ### 兼容性
+- ✅ **TeslaMate 3.0**（完整适配，同步官方所有新特性）
 - ✅ TeslaMate v1.28.0+
-- ✅ Grafana 12.x（基于 teslamate/grafana:latest）
+- ✅ Grafana 12.x / 12.4.0（基于 teslamate/grafana:latest）
 - ⚠️ 不兼容 Grafana 9.x/10.x（使用了 12.x 专有特性）
 - ✅ Docker 20.10+
 - ✅ Docker Compose 2.0+
 
 ### 更新日志
 
-#### v1.3.3 (2026-03-20)
-- 🔧 修复 Grafana 12.4.0 启动报错 "Datasource provisioning error: data source not found"（Issue #3）
-  - 根因：datasource.yml 中显式设置 `uid: TeslaMate` 与 Grafana 12.4.0 provisioning 行为不兼容
-  - 修复：移除显式 `uid` 字段，与官方 teslamate/grafana 镜像配置保持一致
-  - Grafana 在未指定 uid 时自动使用数据源名称 "TeslaMate" 作为 uid，与 Dashboard JSON 引用匹配
+#### v1.3.3 (2026-03-22) — 完整适配 TeslaMate 3.0 🎉
+
+**🔥 同步官方 TeslaMate 3.0 全部新特性**
+
+- 🆕 **行程仪表盘**：新增「坡度调整效率」/「按距离效率」切换变量，利用 `total_ascent`/`total_descent` 数据，引入重力势能修正，消除长下坡虚高、长爬坡虚低误差
+- 🆕 **充电统计**：新增磷酸铁锂（LFP）电池专项支持；新增连续充电检测（`lead/lag` 窗口函数）；新增充电时长筛选变量；升级费用归因算法（按行程前最近一次充电归因）
+- 🆕 **统计总览**：同步官方费用归因算法升级
+- 🆕 **行程**：新增 `reduced_range_info` CTE，统计续航缓冲激活次数
+- 🔧 修复地点筛选（geofence）变量初始化异常，改用 SQL CTE 注入 "All/-1" 选项绕过 Grafana Bug #119793（影响行程/充电记录仪表盘）
+
+**🐛 Bug 修复**
+
+- 🔧 修复 Grafana 12.4.0 启动报错 "Datasource provisioning error"（Issue #3）—— 移除 `datasource.yml` 中显式 `uid: TeslaMate` 字段
+- 🔧 修复动能回收率显示异常（99%）—— 修正坡度调整效率公式，引入海拔升降对能量的影响
+- 🔧 修复足迹地图 SQL 双引号 Bug（`"$length_unit"` → `'$length_unit'`）
+- 🔧 修复充电费用统计/充电统计多处英文未汉化（AC/DC、Other/Superchargers/Free 等）
+- 🔧 修复所有仪表盘时区显示（`timezone: ""` → `"browser"`）
+
+**📚 文档**
+
+- 新增行程地址不显示排查说明（Nominatim 代理配置）
+- 新增子路径部署说明（`URL_PATH` 环境变量）
 
 #### v1.3.2 (2026-03-19)
 - 🔧 修复 dashboards.yml 路径错误（`/etc/grafana/.../zh-cn` → `/dashboards`，`/internal` → `/dashboards_internal`）
