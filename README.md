@@ -2,7 +2,7 @@
 
 **TeslaMate Chinese Grafana Dashboards** — Simplified Chinese localization for TeslaMate, ready to use out of the box.
 
-简体中文汉化版 TeslaMate Grafana Dashboard - 开箱即用 | 38个仪表板 100% 汉化 | 支持 Docker 一键部署
+简体中文汉化版 TeslaMate Grafana Dashboard - 开箱即用 | 38个仪表板 99% 汉化 | 支持 Docker 一键部署
 
 > 🚗 基于 [TeslaMate](https://github.com/teslamate-org/teslamate) 项目的 Grafana Dashboard 汉化版本
 >
@@ -67,7 +67,7 @@
 - ✅ **开箱即用** - 无需 Docker Hub 账号，直接挂载使用
 - ✅ **一键安装** - 提供多种安装方式，5分钟完成部署
 - ✅ **持续更新** - 通过 git pull 即可获取最新汉化
-- ✅ **完全汉化** - 38个 Dashboard，含7个全新原创分析图表
+- ✅ **深度汉化** - 38个 Dashboard，含7个全新原创分析图表
 - ✅ **完整地图** - 支持 OpenStreetMap 地图服务
 
 ## 📊 汉化成果
@@ -78,12 +78,12 @@
 | 内部详情页 | 3个（行程/充电详情）|
 | 文件总大小 | ~1.2MB |
 | 面板总数 | 295个 |
-| 已汉化 | 258个 (100%) |
-| 汉化完成度 | 100% |
+| 已汉化 | 258个 (99%+) |
+| 汉化完成度 | 99% |
 | 质量等级 | A+ |
 | 最后更新 | 2026-03-19 |
 
-**所有 Dashboard 均已完成简体中文汉化，开箱即用！** 🎉
+**38个 Dashboard 深度汉化，持续优化中，开箱即用！** 🎉
 
 ## 📚 使用文档
 
@@ -524,7 +524,7 @@ docker compose restart grafana
 - **版本号**: v1.3.3
 - **发布日期**: 2026-03-20
 - **Dashboard 数量**: 38个（含7个原创分析仪表盘 + 3个内部详情页）
-- **汉化完成度**: 100%
+- **汉化完成度**: 99%
 
 ### 兼容性
 - ✅ TeslaMate v1.28.0+
