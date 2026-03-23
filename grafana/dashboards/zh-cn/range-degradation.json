@@ -409,7 +409,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT\n  cp.end_date AS time,\n  ROUND(\n    c.${preferred_range}_battery_range_km::float / NULLIF(c.usable_battery_level, 0) * 100\n  ::numeric, 0) AS \"推算满电续航\"\nFROM charging_processes cp\nJOIN (\n  SELECT charging_process_id, MAX(date) AS last_date\n  FROM charges WHERE usable_battery_level > 0\n  GROUP BY charging_process_id\n) AS lc ON cp.id = lc.charging_process_id\nJOIN charges c ON c.charging_process_id = cp.id AND c.date = lc.last_date\nWHERE cp.car_id = $car_id\n  AND cp.end_date IS NOT NULL\n  AND cp.charge_energy_added >= ('$aux'::json ->> 'RatedEfficiency')::float\n  AND c.${preferred_range}_battery_range_km IS NOT NULL\nORDER BY 1;",
+          "rawSql": "SELECT\n  cp.end_date AS time,\n  ROUND(\n    (c.${preferred_range}_battery_range_km::float / NULLIF(c.usable_battery_level, 0) * 100)::numeric\n  , 0) AS \"推算满电续航\"\nFROM charging_processes cp\nJOIN (\n  SELECT charging_process_id, MAX(date) AS last_date\n  FROM charges WHERE usable_battery_level > 0\n  GROUP BY charging_process_id\n) AS lc ON cp.id = lc.charging_process_id\nJOIN charges c ON c.charging_process_id = cp.id AND c.date = lc.last_date\nWHERE cp.car_id = $car_id\n  AND cp.end_date IS NOT NULL\n  AND cp.charge_energy_added >= ('$aux'::json ->> 'RatedEfficiency')::float\n  AND c.${preferred_range}_battery_range_km IS NOT NULL\nORDER BY 1;",
           "refId": "A"
         }
       ]
