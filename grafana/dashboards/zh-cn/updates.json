@@ -227,7 +227,7 @@
         "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [],
-          "fields": "/.*/",
+          "fields": "",
           "values": true
         },
         "showPercentChange": false,
