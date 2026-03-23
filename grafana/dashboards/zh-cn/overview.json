@@ -532,7 +532,7 @@
           }
         }
       ],
-      "title": "充电度数",
+      "title": "充电功率",
       "transformations": [
         {
           "id": "configFromData",
@@ -698,7 +698,7 @@
           }
         }
       ],
-      "title": "能量折线图",
+      "title": "电量折线图",
       "type": "timeseries"
     },
     {
@@ -1272,7 +1272,7 @@
           }
         }
       ],
-      "title": "总能耗",
+      "title": "剩余续航",
       "type": "stat"
     },
     {
