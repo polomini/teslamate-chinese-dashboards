@@ -337,7 +337,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "车辆里程（曲线图）",
   "uid": "NjtMTFggz",
   "version": 1

@@ -1302,7 +1302,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "访问过的地点",
   "uid": "ZzhF-aRWz",
   "version": 1

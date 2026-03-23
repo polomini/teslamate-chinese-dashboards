@@ -2648,33 +2648,7 @@
       ],
       "title": "充电开始时电量",
       "type": "table",
-      "transformations": [
-        {
-          "id": "configFromData",
-          "options": {
-            "applyTo": {
-              "id": "byName",
-              "options": "soc"
-            },
-            "configRefId": "B",
-            "mappings": [
-              {
-                "fieldName": "high",
-                "handlerArguments": {
-                  "threshold": {
-                    "color": "yellow"
-                  }
-                },
-                "handlerKey": "threshold1"
-              },
-              {
-                "fieldName": "highest",
-                "handlerKey": "threshold1"
-              }
-            ]
-          }
-        }
-      ]
+      "transformations": []
     },
     {
       "datasource": {
@@ -3043,7 +3017,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "充电统计（汇总）",
   "uid": "-pkIkhmRz",
   "version": 1

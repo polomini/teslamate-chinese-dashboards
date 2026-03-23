@@ -510,7 +510,7 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "m"
         },
         "overrides": [
           {
@@ -1932,7 +1932,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "充电记录",
   "uid": "TSmNYvRRk",
   "version": 1

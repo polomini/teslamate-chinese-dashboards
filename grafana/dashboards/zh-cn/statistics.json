@@ -990,10 +990,19 @@
           "options": {
             "alias": "avg_cost_kwh",
             "binary": {
-              "left": "cost_charges",
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cost_charges"
+                }
+              },
               "operator": "/",
-              "reducer": "sum",
-              "right": "sum_energy_used_kwh"
+              "right": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "sum_energy_used_kwh"
+                }
+              }
             },
             "mode": "binary",
             "reduce": {
@@ -1004,12 +1013,21 @@
         {
           "id": "calculateField",
           "options": {
-            "alias": "avg_cost_km_temp",
+            "alias": "avg_cost_added_kwh",
             "binary": {
-              "left": "cost_charges",
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cost_charges"
+                }
+              },
               "operator": "/",
-              "reducer": "sum",
-              "right": "sum_distance_km"
+              "right": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "sum_energy_added_kwh"
+                }
+              }
             },
             "mode": "binary",
             "reduce": {
@@ -1020,12 +1038,46 @@
         {
           "id": "calculateField",
           "options": {
-            "alias": "avg_cost_mi_temp",
+            "alias": "cost_per_1000km",
             "binary": {
-              "left": "cost_charges",
-              "operator": "/",
-              "reducer": "sum",
-              "right": "sum_distance_mi"
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "consumption_gross_km"
+                }
+              },
+              "operator": "*",
+              "right": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "avg_cost_added_kwh"
+                }
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "cost_per_1000mi",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "consumption_gross_mi"
+                }
+              },
+              "operator": "*",
+              "right": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "avg_cost_added_kwh"
+                }
+              }
             },
             "mode": "binary",
             "reduce": {
@@ -1038,9 +1090,16 @@
           "options": {
             "alias": "avg_cost_km",
             "binary": {
-              "left": "avg_cost_km_temp",
-              "operator": "*",
-              "right": "100"
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cost_per_1000km"
+                }
+              },
+              "operator": "/",
+              "right": {
+                "fixed": "10"
+              }
             },
             "mode": "binary",
             "reduce": {
@@ -1053,9 +1112,16 @@
           "options": {
             "alias": "avg_cost_mi",
             "binary": {
-              "left": "avg_cost_mi_temp",
-              "operator": "*",
-              "right": "100"
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cost_per_1000mi"
+                }
+              },
+              "operator": "/",
+              "right": {
+                "fixed": "10"
+              }
             },
             "mode": "binary",
             "reduce": {
@@ -1068,9 +1134,19 @@
           "options": {
             "alias": "overhead_pct_km_temp",
             "binary": {
-              "left": "consumption_net_km",
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "consumption_net_km"
+                }
+              },
               "operator": "/",
-              "right": "consumption_gross_km"
+              "right": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "consumption_gross_km"
+                }
+              }
             },
             "mode": "binary",
             "reduce": {
@@ -1083,9 +1159,16 @@
           "options": {
             "alias": "overhead_pct_km",
             "binary": {
-              "left": "1",
+              "left": {
+                "fixed": "1"
+              },
               "operator": "-",
-              "right": "overhead_pct_km_temp"
+              "right": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "overhead_pct_km_temp"
+                }
+              }
             },
             "mode": "binary",
             "reduce": {
@@ -1098,9 +1181,19 @@
           "options": {
             "alias": "overhead_pct_mi_temp",
             "binary": {
-              "left": "consumption_net_mi",
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "consumption_net_mi"
+                }
+              },
               "operator": "/",
-              "right": "consumption_gross_mi"
+              "right": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "consumption_gross_mi"
+                }
+              }
             },
             "mode": "binary",
             "reduce": {
@@ -1113,9 +1206,16 @@
           "options": {
             "alias": "overhead_pct_mi",
             "binary": {
-              "left": "1",
+              "left": {
+                "fixed": "1"
+              },
               "operator": "-",
-              "right": "overhead_pct_mi_temp"
+              "right": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "overhead_pct_mi_temp"
+                }
+              }
             },
             "mode": "binary",
             "reduce": {
@@ -1127,11 +1227,13 @@
           "id": "organize",
           "options": {
             "excludeByName": {
-              "avg_cost_km_temp": true,
-              "avg_cost_mi_temp": true,
+              "avg_cost_added_kwh": true,
+              "cost_per_1000km": true,
+              "cost_per_1000mi": true,
               "date": true,
               "overhead_pct_km_temp": true,
-              "overhead_pct_mi_temp": true
+              "overhead_pct_mi_temp": true,
+              "sum_energy_added_kwh": true
             },
             "includeByName": {},
             "indexByName": {
@@ -1153,6 +1255,7 @@
               "date_to": 16,
               "display": 0,
               "efficiency": 6,
+              "is_incomplete": 18,
               "overhead_pct_km": 17,
               "overhead_pct_mi": 17,
               "sum_distance_km": 3,
@@ -1161,30 +1264,31 @@
               "sum_energy_used_kwh": 7
             },
             "renameByName": {
-              "avg_cost_km": "平均百公里费用",
-              "avg_cost_kwh": "平均电价",
-              "avg_cost_mi": "平均费用 / 100英里",
-              "avg_energy_charged_kwh": "平均每次充电",
+              "avg_cost_km": "Ø Cost / 100 km",
+              "avg_cost_kwh": "Ø Cost / kWh",
+              "avg_cost_mi": "Ø Cost / 100 mi",
+              "avg_energy_charged_kwh": "Ø Energy used / Charge",
               "avg_outside_temp_c": "",
               "avg_outside_temp_f": "",
-              "cnt": "行驶次数",
-              "cnt_charges": "充电次数",
+              "cnt": "# of Drives",
+              "cnt_charges": "# of Charges",
               "consumption_gross_km": "",
               "consumption_gross_mi": "",
               "consumption_net_km": "",
               "consumption_net_mi": "",
-              "cost_charges": "费用",
+              "cost_charges": "Costs",
               "date": "",
               "date_from": "",
               "date_to": "",
-              "display": "周期",
-              "efficiency": "驾驶效率",
-              "overhead_pct_km": "额外能耗开销",
-              "overhead_pct_mi": "额外能耗开销",
+              "display": "Period",
+              "efficiency": "Driving Efficiency",
+              "is_incomplete": "Data Complete",
+              "overhead_pct_km": "Consumption OH",
+              "overhead_pct_mi": "Consumption OH",
               "sum_distance_km": "",
               "sum_distance_mi": "",
-              "sum_duration_h": "驾驶时间",
-              "sum_energy_used_kwh": "用电量"
+              "sum_duration_h": "Time driven",
+              "sum_energy_used_kwh": "Energy used"
             }
           }
         }
@@ -1354,7 +1458,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "行程统计（年月日）",
   "uid": "1EZnXszMk",
   "version": 1

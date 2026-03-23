@@ -219,7 +219,7 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "m"
         },
         "overrides": [
           {
@@ -1832,7 +1832,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "行程列表",
   "uid": "Y8upc6ZRk",
   "version": 1

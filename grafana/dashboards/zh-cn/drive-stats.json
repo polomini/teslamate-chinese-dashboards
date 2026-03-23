@@ -1838,7 +1838,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "行程统计（汇总)",
   "uid": "_7WkNSyWk",
   "version": 1

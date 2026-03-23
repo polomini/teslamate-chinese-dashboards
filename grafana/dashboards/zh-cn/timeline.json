@@ -903,7 +903,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "时间线",
   "uid": "SUBgwtigz",
   "version": 1

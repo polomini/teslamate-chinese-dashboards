@@ -757,7 +757,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "停车电量消耗",
   "uid": "zhHx2Fggk",
   "version": 1

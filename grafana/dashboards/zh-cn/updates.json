@@ -698,7 +698,7 @@
       "1d"
     ]
   },
-  "timezone": "",
+  "timezone": "browser",
   "title": "系统更新",
   "uid": "IiC07mgWz",
   "version": 1

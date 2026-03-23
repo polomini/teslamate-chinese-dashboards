@@ -948,7 +948,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "续航曲线图",
   "uid": "riqUfXgRz",
   "version": 1
