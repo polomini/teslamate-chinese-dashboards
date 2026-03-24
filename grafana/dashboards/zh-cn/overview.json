@@ -1949,7 +1949,7 @@
           "options": {
             "byVariable": false,
             "include": {
-              "pattern": "time|Driver.*"
+              "pattern": "time|驾驶员.*"
             }
           }
         }
@@ -2128,7 +2128,7 @@
           "id": "filterFieldsByName",
           "options": {
             "include": {
-              "pattern": "time|Inside.*"
+              "pattern": "time|车内.*"
             }
           }
         }
