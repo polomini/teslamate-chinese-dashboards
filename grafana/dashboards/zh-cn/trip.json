@@ -2119,6 +2119,14 @@
               {
                 "id": "displayName",
                 "value": "车辆ID"
+              },
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "viz": true,
+                  "legend": false,
+                  "tooltip": false
+                }
               }
             ]
           },
@@ -2131,6 +2139,14 @@
               {
                 "id": "displayName",
                 "value": "行程ID"
+              },
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "viz": true,
+                  "legend": false,
+                  "tooltip": false
+                }
               }
             ]
           },
@@ -2155,6 +2171,54 @@
               {
                 "id": "displayName",
                 "value": "结束时间"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "start_path"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "viz": true,
+                  "legend": false,
+                  "tooltip": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "end_path"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "viz": true,
+                  "legend": false,
+                  "tooltip": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "duration_str"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "viz": true,
+                  "legend": false,
+                  "tooltip": false
+                }
               }
             ]
           }

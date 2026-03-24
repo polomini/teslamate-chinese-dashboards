@@ -853,6 +853,14 @@
               {
                 "id": "custom.hidden",
                 "value": true
+              },
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "viz": true,
+                  "legend": false,
+                  "tooltip": false
+                }
               }
             ]
           },
@@ -1085,6 +1093,14 @@
               {
                 "id": "custom.hidden",
                 "value": true
+              },
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "viz": true,
+                  "legend": false,
+                  "tooltip": false
+                }
               }
             ]
           },
@@ -1158,6 +1174,14 @@
               {
                 "id": "custom.hidden",
                 "value": true
+              },
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "viz": true,
+                  "legend": false,
+                  "tooltip": false
+                }
               }
             ]
           },
@@ -1170,6 +1194,14 @@
               {
                 "id": "custom.hidden",
                 "value": true
+              },
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "viz": true,
+                  "legend": false,
+                  "tooltip": false
+                }
               }
             ]
           },
