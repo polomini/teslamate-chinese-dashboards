@@ -509,6 +509,17 @@
       "title": "日均回收率趋势(%)",
       "description": "折线图显示每日平均回收率变化，可观察固件升级前后的明显拐点。",
       "type": "timeseries",
+      "transformations": [
+        {
+          "id": "regression",
+          "options": {
+            "modelType": "linear",
+            "xFieldName": "Time",
+            "yFieldName": "日均回收率(%)",
+            "predictionCount": 100
+          }
+        }
+      ],
       "targets": [
         {
           "datasource": {
@@ -754,6 +765,17 @@
       },
       "title": "每日回收电量(kWh)",
       "type": "timeseries",
+      "transformations": [
+        {
+          "id": "regression",
+          "options": {
+            "modelType": "linear",
+            "xFieldName": "Time",
+            "yFieldName": "每日回收(kWh)",
+            "predictionCount": 100
+          }
+        }
+      ],
       "targets": [
         {
           "datasource": {
@@ -848,6 +870,17 @@
       },
       "title": "每周回收电量(kWh)",
       "type": "timeseries",
+      "transformations": [
+        {
+          "id": "regression",
+          "options": {
+            "modelType": "linear",
+            "xFieldName": "Time",
+            "yFieldName": "每周回收(kWh)",
+            "predictionCount": 100
+          }
+        }
+      ],
       "targets": [
         {
           "datasource": {
@@ -1355,6 +1388,17 @@
       },
       "title": "每周最高回收功率(kW)",
       "type": "timeseries",
+      "transformations": [
+        {
+          "id": "regression",
+          "options": {
+            "modelType": "linear",
+            "xFieldName": "Time",
+            "yFieldName": "每周最高回收功率(kW)",
+            "predictionCount": 100
+          }
+        }
+      ],
       "targets": [
         {
           "datasource": {

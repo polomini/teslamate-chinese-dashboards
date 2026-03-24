@@ -523,7 +523,18 @@
         }
       ],
       "title": "按月能耗趋势 (Wh/km)",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transformations": [
+        {
+          "id": "regression",
+          "options": {
+            "modelType": "linear",
+            "xFieldName": "Time",
+            "yFieldName": "月均能耗",
+            "predictionCount": 100
+          }
+        }
+      ]
     },
     {
       "collapsed": false,

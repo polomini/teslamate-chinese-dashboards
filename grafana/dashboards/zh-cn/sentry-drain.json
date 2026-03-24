@@ -411,6 +411,17 @@
       },
       "title": "月度平均停车掉电趋势（%）",
       "type": "timeseries",
+      "transformations": [
+        {
+          "id": "regression",
+          "options": {
+            "modelType": "linear",
+            "xFieldName": "Time",
+            "yFieldName": "平均掉电%",
+            "predictionCount": 100
+          }
+        }
+      ],
       "targets": [
         {
           "datasource": {
