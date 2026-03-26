@@ -14,6 +14,7 @@
 ![GitHub Forks](https://img.shields.io/github/forks/wjsall/teslamate-chinese-dashboards?style=social)
 ![GitHub Issues](https://img.shields.io/github/issues/wjsall/teslamate-chinese-dashboards)
 ![Build Status](https://github.com/wjsall/teslamate-chinese-dashboards/actions/workflows/ghcr-build.yml/badge.svg)
+[![Telegram](https://img.shields.io/badge/Telegram-交流群-blue?logo=telegram)](https://t.me/+BeOASgmvE_IyNzNl)
 
 ## 📸 效果预览
 
