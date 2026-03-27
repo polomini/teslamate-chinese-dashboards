@@ -91,14 +91,23 @@ ports:
 Error response from daemon: Get "https://ghcr.io/...": dial tcp: i/o timeout
 ```
 
-**解决方案 A：配置 Docker 镜像加速**
+**解决方案 A：切换到 Docker Hub 镜像（最简单，推荐）**
+
+将 `docker-compose.yml` 中 grafana 的 `image` 替换为 Docker Hub 地址：
+```yaml
+image: bswlhbhmt816/teslamate-chinese-dashboards:latest
+```
+Docker Hub 在中国大陆访问比 ghcr.io 稳定得多，无需额外配置。
+
+**解决方案 B：配置 Docker 镜像加速**
 ```bash
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": [
-    "https://mirror.ccs.tencentyun.com",
-    "https://registry.docker-cn.com"
+    "https://dockerproxy.cn",
+    "https://docker.1ms.run",
+    "https://hub-mirror.c.163.com"
   ]
 }
 EOF
@@ -106,7 +115,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-**解决方案 B：使用代理**
+**解决方案 C：使用代理**
 ```bash
 # 临时设置代理
 export HTTP_PROXY=http://你的代理IP:端口
@@ -114,7 +123,7 @@ export HTTPS_PROXY=http://你的代理IP:端口
 docker compose pull
 ```
 
-**解决方案 C：在能访问的机器上拉取并导出**
+**解决方案 D：在能访问的机器上拉取并导出**
 ```bash
 # 有网络的机器上
 docker pull ghcr.io/wjsall/teslamate-chinese-dashboards:latest
@@ -178,7 +187,7 @@ docker compose restart grafana
 查看 `docker-compose.yml` 中 grafana 服务是否有：
 ```yaml
 environment:
-  - GF_DEFAULT_LANGUAGE=zh-Hans
+  - GF_USERS_DEFAULT_LANGUAGE=zh-Hans
 ```
 
 **解决 2：确认使用的是中文镜像**

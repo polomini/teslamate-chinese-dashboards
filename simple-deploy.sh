@@ -11,7 +11,7 @@ echo ""
 echo "📦 安装内容："
 echo "  - TeslaMate 后端"
 echo "  - PostgreSQL 数据库"
-echo "  - Grafana + 中文 Dashboard（39个）"
+echo "  - Grafana + 中文 Dashboard（40个）"
 echo "  - MQTT 消息服务"
 echo ""
 echo "⏱️  预计耗时：5-10 分钟"
@@ -95,7 +95,7 @@ services:
       - DATABASE_NAME=teslamate
       - DATABASE_HOST=database
       - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_DEFAULT_LANGUAGE=zh-Hans
+      - GF_USERS_DEFAULT_LANGUAGE=zh-Hans
 
   mosquitto:
     image: eclipse-mosquitto:2

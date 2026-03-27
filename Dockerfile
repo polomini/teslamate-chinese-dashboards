@@ -7,7 +7,6 @@ LABEL description="TeslaMate Grafana with Chinese Dashboards"
 LABEL version="1.4.0"
 
 # 强制中文语言设置（关键！）
-ENV GF_DEFAULT_LANGUAGE=zh-Hans
 ENV GF_USERS_DEFAULT_LANGUAGE=zh-Hans
 ENV GF_USERS_DEFAULT_LOCALE=zh-Hans
 

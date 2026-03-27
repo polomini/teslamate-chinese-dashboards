@@ -10,7 +10,7 @@
 TeslaMate 是一个**开源**的特斯拉数据记录工具。它会自动收集你的车辆数据（每次行程、充电、电池状态等），保存在你自己的服务器上。数据完全属于你，不经过任何第三方。
 
 ### 本项目是什么？
-TeslaMate 官方的 Grafana 图表是英文的。本项目提供了 **38 个简体中文汉化版图表**（含 7 个原创分析仪表盘），把所有界面翻译成中文，开箱即用。
+TeslaMate 官方的 Grafana 图表是英文的。本项目提供了 **40 个简体中文汉化版图表**（含 9 个原创分析仪表盘），把所有界面翻译成中文，开箱即用。
 
 ### 整体架构（你不需要完全理解，但有个概念更好）
 
@@ -155,7 +155,7 @@ services:
       - DATABASE_PASS=你的数据库密码
       - DATABASE_NAME=teslamate
       - DATABASE_HOST=database
-      - GF_DEFAULT_LANGUAGE=zh-Hans
+      - GF_USERS_DEFAULT_LANGUAGE=zh-Hans
 
   mosquitto:
     image: eclipse-mosquitto:2
@@ -245,7 +245,7 @@ TeslaMate 使用 **Tesla 官方 OAuth** 授权，**不需要把密码输入到 T
 
 ### 界面说明
 
-登录后你会看到左侧导航栏，点击 **Dashboards** 查看所有 38 个中文图表。
+登录后你会看到左侧导航栏，点击 **Dashboards** 查看所有 40 个中文图表。
 
 **推荐第一次看这几个：**
 1. **概览** — 车辆当前整体状态
@@ -333,7 +333,7 @@ docker compose exec database pg_dump -U teslamate teslamate > backup_$(date +%Y%
 A: 可以。用同一个特斯拉账号下的多辆车，TeslaMate 会自动识别并分别记录。图表顶部有车辆选择下拉框。
 
 **Q: Grafana 界面怎么还是英文？**
-A: 确认 Grafana 服务的环境变量中有 `GF_DEFAULT_LANGUAGE=zh-Hans`，然后重启 Grafana：
+A: 确认 Grafana 服务的环境变量中有 `GF_USERS_DEFAULT_LANGUAGE=zh-Hans`，然后重启 Grafana：
 ```bash
 docker compose restart grafana
 ```
@@ -347,7 +347,7 @@ docker compose restart grafana
 | 文档 | 内容 |
 |------|------|
 | [SCENE_GUIDE.md](SCENE_GUIDE.md) | 什么场景看什么 Dashboard |
-| [DASHBOARD_MAP.md](DASHBOARD_MAP.md) | 38 个 Dashboard 导航地图 |
+| [DASHBOARD_MAP.md](DASHBOARD_MAP.md) | 40 个 Dashboard 导航地图 |
 | [METRICS_GUIDE.md](METRICS_GUIDE.md) | 各项数据指标解释 |
 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | 遇到问题怎么解决 |
 

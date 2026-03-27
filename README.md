@@ -2,7 +2,7 @@
 
 **TeslaMate Chinese Grafana Dashboards** — Simplified Chinese localization for TeslaMate, ready to use out of the box.
 
-简体中文汉化版 TeslaMate Grafana Dashboard - 开箱即用 | 39个仪表板 99% 汉化 | 支持 Docker 一键部署
+简体中文汉化版 TeslaMate Grafana Dashboard - 开箱即用 | 40个仪表板 99% 汉化 | 支持 Docker 一键部署
 
 > 🚗 基于 [TeslaMate](https://github.com/teslamate-org/teslamate) 项目的 Grafana Dashboard 汉化版本
 >
@@ -100,14 +100,14 @@
 | 文档 | 说明 | 适合人群 |
 |------|------|----------|
 | **[新手向导](QUICKSTART.md)** | 从零开始安装，含 FAQ | 完全新手 |
-| **[功能地图](DASHBOARD_MAP.md)** | 38个 Dashboard 分类导航 | 新用户 |
+| **[功能地图](DASHBOARD_MAP.md)** | 40个 Dashboard 分类导航 | 新用户 |
 | **[场景速查手册](SCENE_GUIDE.md)** | 什么时候看什么 Dashboard | 所有用户 |
 | **[数据指标手册](METRICS_GUIDE.md)** | 指标解释、正常范围、异常处理 | 进阶用户 |
 | **[故障排查手册](TROUBLESHOOTING.md)** | 遇到问题按症状查解决方案 | 遇到问题时 |
 
 **新手建议**：先看「新手向导」→「功能地图」→「场景速查手册」→「数据指标手册」
 
-## 📁 包含的 Dashboard (38个)
+## 📁 包含的 Dashboard (40个)
 
 ### 核心功能 (4个)
 - ✅ **概览 (Overview)** - 车辆整体状态和关键指标
@@ -115,7 +115,7 @@
 - ✅ **充电统计 (Charging Stats)** - 充电数据汇总分析
 - ✅ **行程统计 (Drive Stats)** - 行驶数据汇总分析
 
-### 充电相关 (11个)
+### 充电相关 (12个)
 - ✅ **当前充电状态 (Current Charge View)** - 实时充电监控
 - ✅ **充电记录 (Charges)** - 历史充电记录查询
 - ✅ **充电费用统计 (Charging Cost Stats)** - 充电成本分析
@@ -129,7 +129,7 @@
 - 🆕 **充电健康管理** - 充电习惯评分、快充占比、SOC分布分析
 - 🆕 **哨兵模式耗电分析** - 哨兵开启时长、耗电估算、地点分布
 
-### 驾驶相关 (10个)
+### 驾驶相关 (11个)
 - ✅ **当前驾驶状态 (Current Drive View)** - 实时驾驶监控
 - ✅ **行程列表 (Drives)** - 行程记录查询
 - ✅ **驾驶记录追踪 (Tracking Drives)** - GPS轨迹追踪
@@ -165,12 +165,12 @@
 
 | 类别 | 数量 | 占比 | 主要功能 |
 |------|------|------|----------|
-| 核心功能 | 4 | 11% | 概览、状态、统计汇总 |
-| 充电相关 | 11 | 29% | 充电监控、成本、电池健康、哨兵耗电 |
-| 驾驶相关 | 10 | 26% | 行程记录、轨迹、规律分析、年度报告、动能回收 |
-| 车辆状态 | 6 | 16% | 实时状态、胎压、能效 |
-| 其他功能 | 7 | 18% | 地图、时间线、省钱分析、多车对比 |
-| **总计** | **38** | **100%** | **全方位车辆数据分析** |
+| 核心功能 | 4 | 10% | 概览、状态、统计汇总 |
+| 充电相关 | 12 | 30% | 充电监控、成本、电池健康、续航退化、哨兵耗电 |
+| 驾驶相关 | 11 | 28% | 行程记录、轨迹、规律分析、年度报告、动能回收、驾驶评分 |
+| 车辆状态 | 6 | 15% | 实时状态、胎压、能效 |
+| 其他功能 | 7 | 17% | 地图、时间线、省钱分析、多车对比 |
+| **总计** | **40** | **100%** | **全方位车辆数据分析** |
 
 ## 🚀 快速开始
 
@@ -183,7 +183,7 @@ services:
   grafana:
     image: ghcr.io/wjsall/teslamate-chinese-dashboards:latest
     environment:
-      - GF_DEFAULT_LANGUAGE=zh-Hans
+      - GF_USERS_DEFAULT_LANGUAGE=zh-Hans
       - GF_SECURITY_ADMIN_PASSWORD=admin
       # ... 其他配置
 ```
@@ -264,7 +264,7 @@ docker compose logs grafana
 open http://localhost:3000
 
 # 4. 验证 Dashboard
-# 登录后应该看到 38 个中文 Dashboard
+# 登录后应该看到 40 个中文 Dashboard
 ```
 
 ### 方法二：一键安装脚本
@@ -368,7 +368,7 @@ volumes:
       - DATABASE_PASS=password
       - DATABASE_NAME=teslamate
       - DATABASE_HOST=database
-      - GF_DEFAULT_LANGUAGE=zh-Hans  # ← 添加中文语言设置
+      - GF_USERS_DEFAULT_LANGUAGE=zh-Hans  # ← 添加中文语言设置
     ports:
       - 3000:3000
     volumes:
@@ -412,7 +412,7 @@ services:
       # 挂载内部详情页（行程详情/充电详情）⚠️ 路径必须是 /dashboards_internal/
       - ./teslamate-chinese-dashboards/grafana/dashboards/internal:/dashboards_internal:ro
     environment:
-      - GF_DEFAULT_LANGUAGE=zh-Hans
+      - GF_USERS_DEFAULT_LANGUAGE=zh-Hans
 ```
 
 然后：
@@ -453,7 +453,7 @@ docker compose restart grafana
 1. **检查语言设置**
    ```yaml
    environment:
-     - GF_DEFAULT_LANGUAGE=zh-Hans
+     - GF_USERS_DEFAULT_LANGUAGE=zh-Hans
    ```
 
 2. **清除浏览器缓存**
@@ -487,7 +487,7 @@ docker compose restart grafana
 1. **检查路径**
    ```bash
    ls -la grafana/dashboards/zh-cn/
-   # 应该看到 38 个 JSON 文件
+   # 应该看到 40 个 JSON 文件
    ```
 
 2. **检查权限**
@@ -656,11 +656,11 @@ teslamate-chinese-dashboards/
 ├── simple-deploy.sh            # 一键安装脚本
 ├── grafana/
 │   └── dashboards/
-│       ├── zh-cn/              # 38个主要汉化Dashboard → 挂载到 /dashboards/
+│       ├── zh-cn/              # 40个主要汉化Dashboard → 挂载到 /dashboards/
 │       │   ├── overview.json
 │       │   ├── states.json
 │       │   ├── charging-stats.json
-│       │   └── ... (共38个)
+│       │   └── ... (共40个)
 │       └── internal/           # 3个内部详情页 → 挂载到 /dashboards_internal/
 │           ├── home.json
 │           ├── drive-details.json
@@ -687,7 +687,7 @@ teslamate-chinese-dashboards/
 
 | 变量 | 说明 | 默认值 |
 |------|------|--------|
-| `GF_DEFAULT_LANGUAGE` | Grafana 界面语言 | `zh-Hans` |
+| `GF_USERS_DEFAULT_LANGUAGE` | Grafana 界面语言 | `zh-Hans` |
 | `GF_SECURITY_ADMIN_PASSWORD` | Grafana 管理员密码 | `admin` |
 | `DATABASE_USER` | 数据库用户名 | `teslamate` |
 | `DATABASE_PASS` | 数据库密码 | `password` |
