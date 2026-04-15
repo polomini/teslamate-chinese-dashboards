@@ -563,7 +563,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "WITH pos_lead AS (\n  SELECT p.drive_id, p.power, d.start_date,\n    COALESCE(EXTRACT(EPOCH FROM (LEAD(p.date) OVER (PARTITION BY p.drive_id ORDER BY p.date) - p.date)), 0) AS interval_sec\n  FROM positions p\n  JOIN drives d ON d.id = p.drive_id\n  WHERE d.car_id = $car_id\n    AND $__timeFilter(d.start_date)\n    AND d.end_date IS NOT NULL\n),\nregen AS (\n  SELECT drive_id, MAX(start_date) AS start_date,\n    SUM(CASE WHEN power < 0 THEN ABS(power) * GREATEST(interval_sec, 0) / 3600.0 ELSE 0 END) AS regen_kwh\n  FROM pos_lead GROUP BY drive_id\n),\ncombined AS (\n  SELECT r.start_date,\n    r.regen_kwh / NULLIF(r.regen_kwh + GREATEST(COALESCE((d.start_ideal_range_km - d.end_ideal_range_km) * c.efficiency, 0), 0), 0) * 100 AS regen_pct\n  FROM regen r\n  JOIN drives d ON d.id = r.drive_id\n  JOIN cars c ON c.id = d.car_id\n  WHERE r.regen_kwh > 0 AND d.start_ideal_range_km > d.end_ideal_range_km\n)\nSELECT\n  date_trunc('day', start_date) AS time,\n  ROUND(AVG(regen_pct)::numeric, 1) AS \"日均回收率(%)\"\nFROM combined\nGROUP BY 1 ORDER BY 1;",
+          "rawSql": "WITH pos_lead AS (\n  SELECT p.drive_id, p.power, d.start_date,\n    COALESCE(EXTRACT(EPOCH FROM (LEAD(p.date) OVER (PARTITION BY p.drive_id ORDER BY p.date) - p.date)), 0) AS interval_sec\n  FROM positions p\n  JOIN drives d ON d.id = p.drive_id\n  WHERE d.car_id = $car_id\n    AND $__timeFilter(d.start_date)\n    AND d.end_date IS NOT NULL\n),\nregen AS (\n  SELECT drive_id, MAX(start_date) AS start_date,\n    SUM(CASE WHEN power < 0 THEN ABS(power) * GREATEST(interval_sec, 0) / 3600.0 ELSE 0 END) AS regen_kwh\n  FROM pos_lead GROUP BY drive_id\n),\ncombined AS (\n  SELECT r.start_date,\n    r.regen_kwh / NULLIF(r.regen_kwh + GREATEST(COALESCE((d.start_ideal_range_km - d.end_ideal_range_km) * c.efficiency, 0), 0), 0) * 100 AS regen_pct\n  FROM regen r\n  JOIN drives d ON d.id = r.drive_id\n  JOIN cars c ON c.id = d.car_id\n  WHERE r.regen_kwh > 0 AND d.start_ideal_range_km > d.end_ideal_range_km\n)\nSELECT\n  date_trunc('day', timezone('UTC', start_date), '$__timezone') AS time,\n  ROUND(AVG(regen_pct)::numeric, 1) AS \"日均回收率(%)\"\nFROM combined\nGROUP BY 1 ORDER BY 1;",
           "refId": "A"
         }
       ]
@@ -808,7 +808,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "WITH pos_lead AS (\n  SELECT p.drive_id, p.power, d.start_date,\n    COALESCE(EXTRACT(EPOCH FROM (LEAD(p.date) OVER (PARTITION BY p.drive_id ORDER BY p.date) - p.date)), 0) AS interval_sec\n  FROM positions p\n  JOIN drives d ON d.id = p.drive_id\n  WHERE d.car_id = $car_id\n    AND $__timeFilter(d.start_date)\n    AND d.end_date IS NOT NULL\n),\nregen AS (\n  SELECT drive_id, MAX(start_date) AS start_date,\n    SUM(CASE WHEN power < 0 THEN ABS(power) * GREATEST(interval_sec, 0) / 3600.0 ELSE 0 END) AS regen_kwh\n  FROM pos_lead GROUP BY drive_id\n)\nSELECT\n  date_trunc('day', start_date) AS time,\n  ROUND(SUM(regen_kwh)::numeric, 2) AS \"每日回收(kWh)\"\nFROM regen\nGROUP BY 1 ORDER BY 1;",
+          "rawSql": "WITH pos_lead AS (\n  SELECT p.drive_id, p.power, d.start_date,\n    COALESCE(EXTRACT(EPOCH FROM (LEAD(p.date) OVER (PARTITION BY p.drive_id ORDER BY p.date) - p.date)), 0) AS interval_sec\n  FROM positions p\n  JOIN drives d ON d.id = p.drive_id\n  WHERE d.car_id = $car_id\n    AND $__timeFilter(d.start_date)\n    AND d.end_date IS NOT NULL\n),\nregen AS (\n  SELECT drive_id, MAX(start_date) AS start_date,\n    SUM(CASE WHEN power < 0 THEN ABS(power) * GREATEST(interval_sec, 0) / 3600.0 ELSE 0 END) AS regen_kwh\n  FROM pos_lead GROUP BY drive_id\n)\nSELECT\n  date_trunc('day', timezone('UTC', start_date), '$__timezone') AS time,\n  ROUND(SUM(regen_kwh)::numeric, 2) AS \"每日回收(kWh)\"\nFROM regen\nGROUP BY 1 ORDER BY 1;",
           "refId": "A"
         }
       ]
@@ -902,7 +902,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "WITH pos_lead AS (\n  SELECT p.drive_id, p.power, d.start_date,\n    COALESCE(EXTRACT(EPOCH FROM (LEAD(p.date) OVER (PARTITION BY p.drive_id ORDER BY p.date) - p.date)), 0) AS interval_sec\n  FROM positions p\n  JOIN drives d ON d.id = p.drive_id\n  WHERE d.car_id = $car_id\n    AND $__timeFilter(d.start_date)\n    AND d.end_date IS NOT NULL\n),\nregen AS (\n  SELECT drive_id, MAX(start_date) AS start_date,\n    SUM(CASE WHEN power < 0 THEN ABS(power) * GREATEST(interval_sec, 0) / 3600.0 ELSE 0 END) AS regen_kwh\n  FROM pos_lead GROUP BY drive_id\n)\nSELECT\n  date_trunc('week', start_date) AS time,\n  ROUND(SUM(regen_kwh)::numeric, 2) AS \"每周回收(kWh)\"\nFROM regen\nGROUP BY 1 ORDER BY 1;",
+          "rawSql": "WITH pos_lead AS (\n  SELECT p.drive_id, p.power, d.start_date,\n    COALESCE(EXTRACT(EPOCH FROM (LEAD(p.date) OVER (PARTITION BY p.drive_id ORDER BY p.date) - p.date)), 0) AS interval_sec\n  FROM positions p\n  JOIN drives d ON d.id = p.drive_id\n  WHERE d.car_id = $car_id\n    AND $__timeFilter(d.start_date)\n    AND d.end_date IS NOT NULL\n),\nregen AS (\n  SELECT drive_id, MAX(start_date) AS start_date,\n    SUM(CASE WHEN power < 0 THEN ABS(power) * GREATEST(interval_sec, 0) / 3600.0 ELSE 0 END) AS regen_kwh\n  FROM pos_lead GROUP BY drive_id\n)\nSELECT\n  date_trunc('week', timezone('UTC', start_date), '$__timezone') AS time,\n  ROUND(SUM(regen_kwh)::numeric, 2) AS \"每周回收(kWh)\"\nFROM regen\nGROUP BY 1 ORDER BY 1;",
           "refId": "A"
         }
       ]
@@ -1409,7 +1409,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date_trunc('week', d.start_date) AS time,\n  ROUND(MAX(ABS(p.power))::numeric, 1) AS \"每周最高回收功率(kW)\"\nFROM positions p\nJOIN drives d ON p.drive_id = d.id\nWHERE d.car_id = $car_id\n  AND $__timeFilter(d.start_date)\n  AND d.end_date IS NOT NULL\n  AND p.power < 0\nGROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT\n  date_trunc('week', timezone('UTC', d.start_date), '$__timezone') AS time,\n  ROUND(MAX(ABS(p.power))::numeric, 1) AS \"每周最高回收功率(kW)\"\nFROM positions p\nJOIN drives d ON p.drive_id = d.id\nWHERE d.car_id = $car_id\n  AND $__timeFilter(d.start_date)\n  AND d.end_date IS NOT NULL\n  AND p.power < 0\nGROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ]

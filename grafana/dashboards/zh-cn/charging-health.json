@@ -818,7 +818,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT date_trunc('month', start_date) AS time, COUNT(*) AS \"充电次数\" FROM charging_processes WHERE car_id = $car_id AND $__timeFilter(start_date) GROUP BY 1 ORDER BY 1;",
+          "rawSql": "SELECT date_trunc('month', timezone('UTC', start_date), '$__timezone') AS time, COUNT(*) AS \"充电次数\" FROM charging_processes WHERE car_id = $car_id AND $__timeFilter(start_date) GROUP BY 1 ORDER BY 1;",
           "refId": "A"
         }
       ],
