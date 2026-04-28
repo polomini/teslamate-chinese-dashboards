@@ -13,6 +13,7 @@ echo "  - TeslaMate 后端"
 echo "  - PostgreSQL 数据库"
 echo "  - Grafana + 中文 Dashboard（40个）"
 echo "  - MQTT 消息服务"
+echo "  - 🌏 地图源切换 + GCJ-02 自动纠偏（v1.4.2 中文版独有）"
 echo ""
 echo "⏱️  预计耗时：5-10 分钟"
 echo ""
@@ -138,6 +139,43 @@ echo ""
 echo "📊 服务状态:"
 docker compose ps
 
+# ============================================================
+# 安装坐标转换函数（v1.4.2+ 地图源切换功能依赖）
+# ============================================================
+echo ""
+echo "📍 安装地图坐标转换函数（v1.4.2 新功能）..."
+
+# 等数据库就绪（最多 60 秒）
+DB_CONTAINER=$(docker compose ps -q database 2>/dev/null | head -1)
+if [ -z "$DB_CONTAINER" ]; then
+    DB_CONTAINER=$(docker ps --format '{{.Names}}' | grep -iE 'teslamate.*database' | head -1)
+fi
+
+DB_READY=0
+for i in $(seq 1 30); do
+    if docker exec "$DB_CONTAINER" psql -U teslamate -d teslamate -c "SELECT 1" >/dev/null 2>&1; then
+        DB_READY=1
+        break
+    fi
+    sleep 2
+done
+
+if [ "$DB_READY" -eq 1 ]; then
+    SQL_URL="https://raw.githubusercontent.com/wjsall/teslamate-chinese-dashboards/main/sql/install-coord-functions.sql"
+    if curl -fsSL "$SQL_URL" | docker exec -i "$DB_CONTAINER" psql -U teslamate -d teslamate >/dev/null 2>&1; then
+        echo "  ✓ 坐标转换函数已安装（地图源切换+GCJ-02 自动纠偏可用）"
+    else
+        echo "  ⚠ 函数安装失败，地图源切换功能暂不可用"
+        echo "    安装完成后手动运行："
+        echo "    curl -fsSL $SQL_URL | docker exec -i $DB_CONTAINER psql -U teslamate -d teslamate"
+    fi
+else
+    echo "  ⚠ 数据库 60 秒内未就绪，跳过函数安装"
+    echo "    服务起来后手动运行 bash scripts/upgrade.sh 或下面命令："
+    echo "    SQL_URL=\"https://raw.githubusercontent.com/wjsall/teslamate-chinese-dashboards/main/sql/install-coord-functions.sql\""
+    echo "    curl -fsSL \"\$SQL_URL\" | docker exec -i $DB_CONTAINER psql -U teslamate -d teslamate"
+fi
+
 echo ""
 echo "=============================================="
 echo "✅ 安装完成！"
@@ -156,6 +194,8 @@ echo "  1. 访问 TeslaMate: http://localhost:4000"
 echo "  2. 按照页面引导完成 Tesla 账号授权（OAuth）"
 echo "  3. 车辆会自动开始同步数据"
 echo "  4. 几分钟后访问 Grafana 查看中文 Dashboard"
+echo "  5. 打开任一含地图仪表盘（足迹地图/驾驶记录追踪等），顶部「地图源」"
+echo "     下拉框试试切换到「高德地图」/「谷歌卫星」"
 echo ""
 echo "📚 相关文档（在线）："
 echo "  https://github.com/wjsall/teslamate-chinese-dashboards"
