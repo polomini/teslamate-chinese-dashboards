@@ -27,15 +27,17 @@
 > ### 方法 C —— 手动派
 > ```bash
 > # 1. 拉最新镜像 / 仓库代码
-> docker compose pull && docker compose up -d   # 一键脚本用户
-> #   或
-> git pull                                       # git clone 用户
+> docker compose pull && docker compose up -d     # 一键脚本用户
+> # 或
+> git pull                                         # git clone 用户
 >
-> # 2. 装坐标转换函数
+> # 2. 装坐标转换函数（按你的安装方式选一条）
+> # git clone 用户（仓库本地有 sql/ 目录）：
 > docker exec -i teslamate-database-1 psql -U teslamate teslamate < sql/install-coord-functions.sql
-> #   一键脚本用户没有本地 sql/ 文件？用 curl 拉远程：
-> #   curl -fsSL https://raw.githubusercontent.com/wjsall/teslamate-chinese-dashboards/main/sql/install-coord-functions.sql | \
-> #     docker exec -i teslamate-database-1 psql -U teslamate -d teslamate
+>
+> # 一键脚本用户（没本地 sql/ 文件，从远程拉）：
+> curl -fsSL https://raw.githubusercontent.com/wjsall/teslamate-chinese-dashboards/main/sql/install-coord-functions.sql | \
+>   docker exec -i teslamate-database-1 psql -U teslamate -d teslamate
 >
 > # 3. 重启 Grafana
 > docker compose restart grafana
