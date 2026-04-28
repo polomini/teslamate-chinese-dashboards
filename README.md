@@ -4,6 +4,29 @@
 
 简体中文汉化版 TeslaMate Grafana Dashboard - 开箱即用 | 40个仪表板 99% 汉化 | 支持 Docker 一键部署
 
+---
+
+> ## ⚠️ 升级到 v1.4.2 必读 — 一行命令必跑
+>
+> v1.4.2 新增「地图源切换 + 自动 GCJ-02 坐标纠偏」（中文版独有）功能依赖一个 PostgreSQL 函数。**`git pull` 不会自动装**。如果不装，9 个含地图的仪表盘会显示 `function lat_for_map does not exist` 报错。
+>
+> **一键升级（推荐）：**
+> ```bash
+> bash scripts/upgrade.sh
+> ```
+> 自动: git pull → 检测 PG 容器 → 装函数 → 重启 Grafana。
+>
+> **或手动三步：**
+> ```bash
+> git pull
+> docker exec -i teslamate-database-1 psql -U teslamate teslamate < sql/install-coord-functions.sql
+> docker compose restart grafana
+> ```
+>
+> 装失败排查：[TROUBLESHOOTING.md](TROUBLESHOOTING.md) 「装 PostgreSQL 坐标转换函数报错」章节。
+
+---
+
 > 🚗 基于 [TeslaMate](https://github.com/teslamate-org/teslamate) 项目的 Grafana Dashboard 汉化版本
 >
 > 📖 原版文档: https://docs.teslamate.org
