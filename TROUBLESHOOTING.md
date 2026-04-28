@@ -334,19 +334,30 @@ docker compose logs mosquitto
 **症状**：行程追踪页面地图空白
 
 **常见原因 1：网络无法访问 OpenStreetMap**
-OpenStreetMap 地图服务在国内可能受限，需要代理。
+OpenStreetMap 地图服务在国内可能受限。
 
 **常见原因 2：浏览器控制台有 CORS 错误**
 ```
 按 F12 → Console 标签 → 查看是否有地图相关错误
 ```
 
-**解决：需要自建可访问的 OSM 瓦片代理**
-由于国内无法直连 `tile.openstreetmap.org`，通常有两种办法：
-1. 在可访问海外的服务器上架设 OSM 瓦片代理，然后在每个含地图的面板里把瓦片 URL 改为你的代理地址（Panel → Edit → Map layers → Base layer → URL template）
-2. 使用国内可直连的瓦片源替换底图（Grafana Geomap 仅支持 XYZ 瓦片协议，自行评估许可与合规）
+**解决方法 1（v1.4.2+ 推荐）：使用顶部「地图源」下拉框切换到高德地图**
 
-> 说明：Grafana 本身不提供地图瓦片代理 env var，需要在面板配置里改 URL template，或通过 provisioning 定制默认底图。
+打开任一含地图的仪表盘，顶部下拉框「地图源」选「高德地图」即可（瓦片直连国内 CDN，无需代理）。注意高德是 GCJ-02 坐标系，标记会偏移 100~700m，详见 [QUICKSTART.md 进阶配置](QUICKSTART.md#进阶配置切换地图源v142-新增下拉框)。
+
+**解决方法 2：自建瓦片代理**
+1. 在可访问海外的服务器上架设 OSM 瓦片代理
+2. 在 Grafana 仪表盘顶部「地图源」下拉框中（v1.4.2+）选「自定义 URL」（或编辑面板 → Map layers → Base layer → URL template）填入代理地址
+
+### ❌ 切换高德地图后车辆标记偏离道路 100~700 米
+
+**原因：坐标系不一致**
+
+高德是 **GCJ-02（火星坐标系）**，TeslaMate 记录的是 **WGS-84（GPS 原始）**。两者在中国境内有 100~700 米偏差。
+
+**解决：**
+- 在意精度 → 用 OSM 或 Carto（都是 WGS-84，无偏差）
+- 必须用高德且要精度 → 看 [QUICKSTART.md 进阶选项 B](QUICKSTART.md#进阶选项-b-sql-端坐标纠偏精度最佳)（SQL 端转换坐标，误差 < 0.5m）
 
 ---
 

@@ -1631,10 +1631,10 @@
       "options": {
         "basemap": {
           "config": {
-            "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-            "attribution": "© OpenStreetMap contributors"
+            "attribution": "${map_url:text} contributors",
+            "url": "${map_url}"
           },
-          "name": "OpenStreetMap",
+          "name": "Layer 0",
           "type": "xyz"
         },
         "controls": {
@@ -3009,6 +3009,40 @@
         "query": "0",
         "skipUrlSync": false,
         "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "OpenStreetMap",
+          "value": "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+        },
+        "description": "切换地图瓦片源。注：高德为 GCJ-02 坐标系，TeslaMate 存的是 WGS-84，标记会偏移 100~700m（瓦片本身正确）。",
+        "hide": 0,
+        "includeAll": false,
+        "label": "地图源",
+        "multi": false,
+        "name": "map_url",
+        "options": [
+          {
+            "selected": true,
+            "text": "OpenStreetMap",
+            "value": "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          },
+          {
+            "selected": false,
+            "text": "高德地图",
+            "value": "https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}"
+          },
+          {
+            "selected": false,
+            "text": "Carto 浅色",
+            "value": "https://cartodb-basemaps-c.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+          }
+        ],
+        "query": "OpenStreetMap : https://tile.openstreetmap.org/{z}/{x}/{y}.png,高德地图 : https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z},Carto 浅色 : https://cartodb-basemaps-c.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
       }
     ]
   },

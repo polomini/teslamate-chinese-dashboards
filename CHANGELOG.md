@@ -1,5 +1,31 @@
 # 更新日志
 
+## [v1.4.2] - 2026-04-28
+
+### 🗺️ 地图源一键切换（解决 Issue #9）
+
+- **9 个含地图仪表盘** 顶部新增「**地图源**」下拉框，可一键切换 `OpenStreetMap` / `高德地图` / `Carto 浅色`
+  - zh-cn 目录 7 个：CurrentChargeView / CurrentDriveView / CurrentState / TrackingDrives / charging-stats / trip / visited
+  - internal 目录 2 个：charge-details / drive-details（之前 QUICKSTART 漏写）
+- 修复 Issue #9：用户不再需要手动编辑 9 处 JSON 才能切高德地图，下拉框选择即可
+- 内部 2 个面板从 `osm-standard` preset 转为显式 `xyz` 配置，与 zh-cn 7 个统一
+- 新增 `scripts/add-map-source-switcher.py`：批量给仪表盘加 `map_url` custom 变量，方便后续维护
+
+### 📚 文档更新
+
+- **QUICKSTART.md**：进阶配置章节重写，从「手动改 7 个面板的 XYZ URL」改为「下拉框 + URL 书签固化」
+  - 修正含地图仪表盘数量：7 → **9**（之前漏写 internal/charge-details 和 internal/drive-details）
+  - 保留 SQL 端坐标纠偏（GCJ-02 ↔ WGS-84，误差 < 0.5m）作为进阶选项 B
+- **TROUBLESHOOTING.md**：「地图不显示」FAQ 增加 v1.4.2+ 下拉框切换为首选方案，新增「切换高德后标记偏离道路」专项 FAQ
+- **CLAUDE.md**：完善 push 前完整评估流程（4 步 lint + 跨文件一致性 + 上游对比）
+
+### ⚠️ 已知行为
+
+- 默认值是 OpenStreetMap，git pull 会重置已选项 → 长期使用高德建议浏览器书签 `?var-map_url=<encoded amap url>`
+- 高德瓦片是 GCJ-02 坐标系，标记会偏移 100~700m（瓦片本身正确），需要精度切 OSM/Carto 或走 SQL 纠偏
+
+---
+
 ## [v1.4.1] - 2026-04-24
 
 ### 🐛 时区 Bug 修复

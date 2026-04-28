@@ -340,46 +340,53 @@ docker compose restart grafana
 
 ---
 
-## 进阶配置：切换高德地图（国内用户可选）
+## 进阶配置：切换地图源（v1.4.2+ 新增下拉框）
 
-> 默认使用 OpenStreetMap，国内加载可能较慢。如果你在中国大陆，可以手动切换为高德地图，加载更快、路名更准确。
+> 默认使用 OpenStreetMap，国内加载可能较慢。每个含地图的仪表盘顶部都有「**地图源**」下拉框，可一键切换为高德地图（加载更快、路名更准确）或 Carto 浅色风格。
 
-### 为什么需要坐标纠偏？
+### 9 个含地图的仪表盘
 
-高德地图使用 **GCJ-02（火星坐标系）**，而 GPS 和 TeslaMate 记录的是 **WGS-84（地球坐标系）**。两者在中国境内有 100-700 米偏差。不纠偏的话，车辆轨迹点会偏离道路。
+| 仪表盘 | 路径 |
+|--------|------|
+| 当前充电状态 | `/d/CurrentChargeView` |
+| 当前驾驶状态 | `/d/CurrentDriveView` |
+| 最近车辆状态 | `/d/CurrentState` |
+| 驾驶记录追踪 | `/d/TrackingDrives` |
+| 充电统计（汇总） | `/d/charging-stats` |
+| 行程统计（时间段） | `/d/trip` |
+| 访问过的地点 | `/d/visited` |
+| 充电详情（内部跳转） | `/d/charge-details` |
+| 行程详情（内部跳转） | `/d/drive-details` |
 
-### 需要改动的内容
+### 怎么切换
 
-共需修改 **7 个仪表盘** 的两处配置：
-1. **底图 URL** → 改为高德瓦片地址
-2. **SQL 查询** → 加入坐标转换公式
+1. 打开任一含地图的仪表盘
+2. 顶部下拉框「**地图源**」选 `高德地图` / `Carto 浅色` / `OpenStreetMap`
+3. 地图瓦片会立即换源
 
-涉及的 7 个仪表盘：`充电统计（汇总）`、`访问过的地点`、`最近车辆状态`、`当前驾驶状态`、`行程统计（时间段）`、`驾驶记录追踪`、`当前充电状态`
+### ⚠️ 关于坐标偏移
 
----
+高德地图使用 **GCJ-02（火星坐标系）**，TeslaMate 记录的是 **WGS-84（GPS 原始）**。两者在中国境内偏差 **100~700 米**。
 
-### 第一步：修改底图 URL
+切到高德后：
+- ✅ 瓦片本身正确（路名、街道清晰）
+- ❌ 车辆标记会偏离实际道路位置（可见的视觉偏差）
 
-在 Grafana 中打开每个含地图的面板，点击右上角 **Edit（编辑）**：
+**默认行为：不做坐标纠偏。** 如果你在意精度（比如轨迹必须吻合道路），有两个进阶选项：
 
-1. 找到地图面板
-2. 右侧面板选项中找到 **底图图层 → 图层类型 → XYZ Tile layer**
-3. 将 URL template 替换为：
+### 进阶选项 A：URL 书签固化选择
+
+每次 git pull 仪表盘 JSON 后默认值会回到 OSM。如果你想长期用高德且不被覆盖，把高德 URL 编码后放进书签：
 
 ```
-http://wprd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}
+http://你的grafana/d/CurrentDriveView?var-map_url=https%3A%2F%2Fwebrd01.is.autonavi.com%2Fappmaptile%3Flang%3Dzh_cn%26size%3D1%26scale%3D1%26style%3D8%26x%3D%7Bx%7D%26y%3D%7By%7D%26z%3D%7Bz%7D
 ```
 
-4. Attribution 填写：`© 高德地图`
-5. 保存面板
+通过书签打开，下拉框就是高德。
 
-> 💡 无需高德 API Key，该地址为高德公共瓦片 CDN，直接可用。
+### 进阶选项 B：SQL 端坐标纠偏（精度最佳）
 
----
-
-### 第二步：SQL 加入坐标纠偏
-
-在同一面板的 **Query（查询）** 中，将原始的 `latitude` / `longitude` 列替换为纠偏后的表达式。
+在每个面板的 **Query（查询）** 中，将原始的 `latitude` / `longitude` 列替换为下面的纠偏表达式（基于 [eviltransform](https://github.com/googollee/eviltransform) WGS-84 → GCJ-02 标准实现，误差 < 0.5 米）：
 
 **纠偏后纬度（替换原 `latitude`）：**
 
@@ -423,15 +430,7 @@ longitude + (
 )
 ```
 
-> 📌 算法来源：[eviltransform](https://github.com/googollee/eviltransform)（WGS-84 → GCJ-02 标准实现），精度误差 < 0.5 米。
-
----
-
-### 注意事项
-
-- 上述修改仅在 **Grafana 界面手动编辑**，不影响底层数据库中的原始坐标
-- 如果你在中国大陆以外使用，**不需要做此改动**，OSM 原版即可
-- 修改后如需恢复 OSM，把底图 URL 改回 `https://tile.openstreetmap.org/{z}/{x}/{y}.png`，SQL 改回原始 `latitude` / `longitude` 即可
+> ⚠️ SQL 纠偏的修改在 Grafana 面板里手动做，不影响数据库原始坐标。每次 git pull 会被覆盖（与 Issue #9 一致），建议自己 fork 仓库或维护本地 patch。
 
 ---
 
