@@ -16,6 +16,13 @@
 >
 > 按你当时怎么装的，选一种：
 >
+> | 你之前怎么装的？ | 用哪个 |
+> |---|---|
+> | **官方源**（grafana 是 `teslamate/grafana`，从未用过我们的镜像） | 👉 [方法 D：从官方源迁移](#upgrade-method-d) |
+> | 用了我们的 `simple-deploy.sh` | [方法 A](#upgrade-method-a) |
+> | `git clone` 了我们仓库 | [方法 B](#upgrade-method-b) |
+> | 自己写 docker-compose 套了我们镜像 | [方法 C](#upgrade-method-c) |
+>
 > <a id="upgrade-method-a"></a>
 >
 > ### 方法 A — 一键脚本用户（之前用 `simple-deploy.sh` 装的）
@@ -54,6 +61,17 @@
 > # 3. 重启 Grafana
 > docker compose restart grafana
 > ```
+>
+> <a id="upgrade-method-d"></a>
+>
+> ### 方法 D — 从官方源迁移（你以前是 `teslamate/grafana`）
+>
+> ```bash
+> wget https://raw.githubusercontent.com/wjsall/teslamate-chinese-dashboards/main/migrate-from-official.sh
+> bash migrate-from-official.sh
+> ```
+>
+> 脚本自动找你的 `docker-compose.yml` → 备份 → 改 grafana image → 拉新镜像 → 装 SQL。**TeslaMate / Postgres / MQTT 完全不动，ENCRYPTION_KEY 和数据 0 丢失**。万一不满意，把 image 改回去重启 grafana 即可回滚（脚本结尾会打印回滚命令）。
 >
 > ### 配分时电价（可选，约 3 分钟）
 >
