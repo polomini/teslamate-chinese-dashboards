@@ -231,6 +231,10 @@
               {
                 "id": "displayName",
                 "value": "总时长:"
+              },
+              {
+                "id": "unit",
+                "value": "分钟"
               }
             ]
           }

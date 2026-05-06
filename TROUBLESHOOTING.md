@@ -378,6 +378,43 @@ services:
 
 ---
 
+### ❌ Grafana admin 密码忘了 / 找回不到
+
+v1.6.9+ 用 `simple-deploy.sh` 装的，Grafana 密码是脚本生成的强随机串（不再是 `admin/admin`）。两条恢复路径：
+
+**方法 1（最快）：从 docker-compose.yml 直接读**
+
+脚本把生成的密码已写进 `docker-compose.yml` 环境变量（mode 600，仅文件所有者可读）：
+
+```bash
+grep GF_SECURITY_ADMIN_PASSWORD ~/teslamate-chinese/docker-compose.yml
+# 输出：- GF_SECURITY_ADMIN_PASSWORD=xxxxxxxxxxxxxxxxxx
+```
+
+群晖 / 别的部署目录的话改成对应路径。
+
+**方法 2：用 grafana CLI 强制重置**
+
+容器内跑（无需停服务，立即生效）：
+
+```bash
+docker exec -it teslamate-grafana-1 grafana-cli admin reset-admin-password '新密码'
+```
+
+⚠️ 命令行参数会留在 bash history，建议改完后 `history -d $(history 1)` 清掉这一条。
+
+**方法 3：改 docker-compose.yml + restart（持久化新密码）**
+
+```bash
+# 编辑 docker-compose.yml
+sed -i 's|GF_SECURITY_ADMIN_PASSWORD=.*|GF_SECURITY_ADMIN_PASSWORD=新密码|' ~/teslamate-chinese/docker-compose.yml
+docker compose -f ~/teslamate-chinese/docker-compose.yml up -d grafana
+```
+
+⚠️ Grafana 启动时只在 admin 账号**首次创建**时用 `GF_SECURITY_ADMIN_PASSWORD`；之后改这个 ENV 不会生效。所以方法 3 只对全新装/重建数据卷的场景有用，已经在跑的实例改这个 ENV 不顶用，请用方法 2。
+
+---
+
 ### ❌ 「自定义新车电池容量」「自定义新车最大续航里程」每次刷新重置为 0
 
 Grafana textbox 变量只活在 URL 里，刷新就丢。两个方法选一个：

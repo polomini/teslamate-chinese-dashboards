@@ -510,6 +510,10 @@
               {
                 "id": "displayName",
                 "value": "平均充电时长:"
+              },
+              {
+                "id": "unit",
+                "value": "分钟"
               }
             ]
           },
@@ -737,7 +741,7 @@
               },
               {
                 "id": "unit",
-                "value": "m"
+                "value": "分钟"
               },
               {
                 "id": "decimals",

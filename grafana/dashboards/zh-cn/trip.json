@@ -1927,7 +1927,7 @@
               },
               {
                 "id": "unit",
-                "value": "m"
+                "value": "分钟"
               },
               {
                 "id": "decimals",
@@ -2430,7 +2430,7 @@
               },
               {
                 "id": "unit",
-                "value": "m"
+                "value": "分钟"
               },
               {
                 "id": "decimals",

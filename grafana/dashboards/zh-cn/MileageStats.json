@@ -181,6 +181,10 @@
               {
                 "id": "decimals",
                 "value": 2
+              },
+              {
+                "id": "unit",
+                "value": "小时"
               }
             ]
           },

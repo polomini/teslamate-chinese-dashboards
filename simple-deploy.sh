@@ -70,7 +70,8 @@ detect_cloud() {
             echo "cloud"; return ;;
     esac
     # metadata 端点（link-local，云厂商通用）— 1 秒内连得通基本是云
-    if curl -fsS --max-time 1 -o /dev/null http://169.254.169.254 2>/dev/null; then
+    # 不用 -f：AWS IMDSv2 默认对裸 GET 返 401，但 401 也证明端点存在；--noproxy 防止 SSRF 路径被 $http_proxy 接管
+    if curl -sS --max-time 1 --noproxy '*' -o /dev/null http://169.254.169.254 2>/dev/null; then
         echo "cloud"; return
     fi
     echo "physical"
@@ -387,21 +388,21 @@ EOF
 ENCRYPTION_KEY=$(openssl rand -hex 32)
 DB_PASS=$(openssl rand -base64 24 | tr -d '/+=' | cut -c1-24)
 GRAFANA_PASS=$(openssl rand -base64 18 | tr -d '/+=' | cut -c1-18)
+# sed in-place 包装：GNU 用 `-i`，BSD/macOS 用 `-i ""`。
+# 占位符列表只写一次，未来加新密码字段不会漏写一边（v1.6.9 第一版 BSD 分支漏 GRAFANA_PASS 教训）
 if sed --version 2>/dev/null | grep -q GNU; then
-  sed -i "s/INSERT_RANDOM_KEY_HERE/$ENCRYPTION_KEY/" docker-compose.yml
-  sed -i "s/DATABASE_PASS=password/DATABASE_PASS=$DB_PASS/g" docker-compose.yml
-  sed -i "s/POSTGRES_PASSWORD=password/POSTGRES_PASSWORD=$DB_PASS/" docker-compose.yml
-  sed -i "s/INSERT_GRAFANA_PASSWORD_HERE/$GRAFANA_PASS/" docker-compose.yml
-  # 端口映射（默认 4000/3000，TM_PORT/GF_PORT 环境变量可覆盖）
-  sed -i "s|- 4000:4000|- ${TM_PORT}:4000|" docker-compose.yml
-  sed -i "s|- 3000:3000|- ${GF_PORT}:3000|" docker-compose.yml
+  sed_inplace() { sed -i "$@"; }
 else
-  sed -i "" "s/INSERT_RANDOM_KEY_HERE/$ENCRYPTION_KEY/" docker-compose.yml
-  sed -i "" "s/DATABASE_PASS=password/DATABASE_PASS=$DB_PASS/g" docker-compose.yml
-  sed -i "" "s/POSTGRES_PASSWORD=password/POSTGRES_PASSWORD=$DB_PASS/" docker-compose.yml
-  sed -i "" "s|- 4000:4000|- ${TM_PORT}:4000|" docker-compose.yml
-  sed -i "" "s|- 3000:3000|- ${GF_PORT}:3000|" docker-compose.yml
+  sed_inplace() { sed -i "" "$@"; }
 fi
+
+sed_inplace "s/INSERT_RANDOM_KEY_HERE/$ENCRYPTION_KEY/"        docker-compose.yml
+sed_inplace "s/DATABASE_PASS=password/DATABASE_PASS=$DB_PASS/g" docker-compose.yml
+sed_inplace "s/POSTGRES_PASSWORD=password/POSTGRES_PASSWORD=$DB_PASS/" docker-compose.yml
+sed_inplace "s/INSERT_GRAFANA_PASSWORD_HERE/$GRAFANA_PASS/"    docker-compose.yml
+# 端口映射（默认 4000/3000，TM_PORT/GF_PORT 环境变量可覆盖）
+sed_inplace "s|- 4000:4000|- ${TM_PORT}:4000|" docker-compose.yml
+sed_inplace "s|- 3000:3000|- ${GF_PORT}:3000|" docker-compose.yml
 
 # 限制 docker-compose.yml 文件权限（含 ENCRYPTION_KEY + DB 密码 + 后续 Tesla token）
 chmod 600 docker-compose.yml
@@ -500,7 +501,7 @@ if [ "$IS_CLOUD" = "cloud" ]; then
 fi
 
 echo "╔════════════════════════════════════════════════════════════╗"
-echo "║  🚨🚨🚨 必须立刻抄录！下面凭据仅显示这一次！  🚨🚨🚨        ║"
+echo "║  🚨🚨🚨 必须立刻抄录！下面凭据仅显示这一次！  🚨🚨🚨       ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
 echo "  ENCRYPTION_KEY = $ENCRYPTION_KEY"
@@ -508,7 +509,7 @@ echo "  DATABASE_PASS  = $DB_PASS"
 echo "  GRAFANA_PASS   = $GRAFANA_PASS"
 echo ""
 echo "  📁 docker-compose.yml 备份位置：$INSTALL_DIR/docker-compose.yml"
-echo "     （已设 mode 600，仅 root 可读）"
+echo "     （已设 mode 600，仅当前用户可读）"
 echo ""
 echo "  ❌ ENCRYPTION_KEY 丢失 → 所有 Tesla Token 永远解密不出 → 必须重新授权"
 echo "  ❌ DATABASE_PASS 丢失 → 数据库迁移/恢复全部失败"

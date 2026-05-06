@@ -276,11 +276,11 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "时长(min)"
+                "value": "时长"
               },
               {
                 "id": "unit",
-                "value": "none"
+                "value": "分钟"
               },
               {
                 "id": "custom.width",

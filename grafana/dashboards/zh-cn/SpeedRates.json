@@ -1159,6 +1159,10 @@
               {
                 "id": "displayName",
                 "value": "时长"
+              },
+              {
+                "id": "unit",
+                "value": "string"
               }
             ]
           },
