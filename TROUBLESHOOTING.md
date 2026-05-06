@@ -869,6 +869,7 @@ docker compose down
 # 3. 删旧的命名卷（数据文件在这里，PG 大版本不兼容必须删）
 # 自动找 PG 数据卷名：项目目录不叫 teslamate 时卷名前缀会变
 DB_VOL=$(docker volume ls -q | grep teslamate-db | head -1)
+[ -z "$DB_VOL" ] && { echo "❌ 找不到 teslamate-db 卷，可能你之前用了 bind mount。手动删 PG 数据目录，跳过这一步"; exit 1; }
 echo "将删除卷：$DB_VOL"
 docker volume rm "$DB_VOL"
 # ⚠ 这一步会删除整个数据库文件，没有 dump 千万别跑！

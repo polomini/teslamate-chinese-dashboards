@@ -65,10 +65,11 @@
 >
 > # 自动找 database 容器名（你的项目目录不叫 teslamate 时容器名会不同，直接 ps 拿）
 > DB=$(docker compose ps -q database)
+> [ -z "$DB" ] && { echo "❌ database 容器没起来，先跑 docker compose up -d 再来"; exit 1; }
 >
 > for f in install-coord-functions install-tou install-indexes; do
 >   curl -fsSL "https://raw.githubusercontent.com/wjsall/teslamate-chinese-dashboards/${REF}/sql/${f}.sql" \
->     | docker exec -i $DB psql -U teslamate -d teslamate
+>     | docker exec -i "$DB" psql -U teslamate -d teslamate
 > done
 >
 > # 3. 重启 Grafana
