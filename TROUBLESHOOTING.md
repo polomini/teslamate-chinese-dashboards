@@ -4,7 +4,23 @@
 
 ---
 
-## 🔍 诊断三板斧
+## 🤖 先问 AI 自助排查（推荐第一步）
+
+多数常见问题（面板找不到 / 数据为空 / 容器起不来 / 迁移失败 / 地址显示空 / 升级失败）AI 拿到日志能给出诊断方向，比开 issue 等回复快得多。
+
+**操作 3 步：**
+
+1. 打开 [docs/ai-troubleshooting-prompt.md](docs/ai-troubleshooting-prompt.md) 看完整 prompt + AI 平台清单
+2. 把里面 ✂️ 之间的整段 prompt 复制到任意主流 AI
+3. 在 prompt 末尾贴上你的错误日志和问题，提交
+
+AI 拿到的是完整项目背景（架构、SQL 三件套、常见坑、调试命令），诊断比通用 AI 准得多。**注意核对 AI 给的命令再执行，不要盲跑 chown / DROP / --user root 等改动型命令。**
+
+**AI 没解决** → 再来 [GitHub issues](https://github.com/wjsall/teslamate-chinese-dashboards/issues) 报告，附上 AI 的诊断结论让维护者跳过重复排查。
+
+---
+
+## 🔍 诊断三板斧（手动排查）
 
 遇到任何问题，先执行这三个命令：
 

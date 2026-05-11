@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🤖 先问 AI 自助排查
+    url: https://github.com/wjsall/teslamate-chinese-dashboards/blob/main/docs/ai-troubleshooting-prompt.md
+    about: 复制项目 prompt 给主流 AI，看日志直接诊断
+  - name: 📖 故障排查手册
+    url: https://github.com/wjsall/teslamate-chinese-dashboards/blob/main/TROUBLESHOOTING.md
+    about: 按症状找原因的手动排查清单
+  - name: 💬 Telegram 用户群
+    url: https://t.me/+BeOASgmvE_IyNzNl
+    about: 实时讨论和经验分享

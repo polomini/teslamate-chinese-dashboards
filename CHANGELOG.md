@@ -1,5 +1,30 @@
 # 更新日志
 
+## [v1.7.2] - 2026-05-11
+
+### 🆕 加 AI 自助排查机制（多数常见问题不用开 issue 就能解决）
+
+新增 `docs/ai-troubleshooting-prompt.md` —— 给用户一份**完整项目背景 prompt**（含项目身份 / 镜像架构 / SQL 三件套 / 容器与 service 命名 / 常见 6 类问题排查思路 / 调试命令清单 / 回答规范），复制粘贴给任意主流 AI（Claude / ChatGPT / Kimi / 通义 / 豆包 / DeepSeek）+ 附上自己的日志，AI 就能基于项目上下文给出诊断方向。
+
+为什么有效：多数常见问题（面板找不到 / 数据为空 / 容器起不来 / 迁移失败 / 地址显示空 / 升级失败）都是看一眼日志就能定位的，但通用 AI 不懂项目细节会给错答案；带项目 prompt 的 AI 答得比维护者回 issue 还快。
+
+### 🆕 GitHub issue 模板
+
+加 `.github/ISSUE_TEMPLATE/bug_report.md` + `config.yml`：
+
+- **bug report 模板**：勾选「已先问过 AI 自助排查」+ 必填日志 + AI 诊断结论字段，让开 issue 前已有 AI 第一轮诊断结果，维护者跳过重复排查直接定位
+- **config.yml contact links**：禁用空白 issue，引导用户先看 AI prompt / TROUBLESHOOTING / Telegram 群
+
+### 📚 TROUBLESHOOTING.md 顶部加「先问 AI」一节
+
+第一屏指引用户走自助路径，AI 没解决再走手动「诊断三板斧」。
+
+### 兼容性
+
+纯文档 + GitHub 模板新增，**不动镜像、SQL、dashboard JSON**。已部署的用户 `git pull` 拿到新文档即可，不需要重启 / 拉镜像。
+
+---
+
 ## [v1.7.1] - 2026-05-08
 
 ### 🐛 多车主用户「车辆标准能耗」面板 No data
