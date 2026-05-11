@@ -1,5 +1,7 @@
 # 单位约定 / Units Convention
 
+> **本文档是项目维护者参考资料**（改 Grafana 面板单位时避免重蹈历史坑），普通用户可跳过。
+>
 > 项目内所有 Grafana 仪表盘单位字段的决策矩阵。新增面板或修改 override 前请先查这里。
 
 ## TL;DR
@@ -14,13 +16,12 @@
 |---------|-------------|----------|------|
 | 距离（汇总：年度/月度/累计） | 1000 ~ 100000 km | `"km"` 字符串 | `lengthkm` 把 8076 km 显示为 `8 Mm` |
 | 距离（drill-down 单次行程） | 1 ~ 500 km | `lengthkm` 内置 | 数值小不触发 Mm 换算，保留 i18n |
-| 时长（未拼接中文） | 1 ~ 10000 min | `"分钟"` 字符串 | 内置 `m` 把 10080 min 显示为 `1 weeks` |
-| 时长（已 SQL 拼接 `X时X分`） | 字符串 | `"string"` | stat 面板加 `reduceOptions.fields="/.*/"` 让字符串字段渲染 |
-| 时长（drill-down 单次） | 任意秒数 | `clocks` 内置 → 不要用 | Grafana 内置输出 `1h:07m` 英文。统一用 SQL 拼接中文字符串 |
+| 时长（汇总型，分钟为单位） | 1 ~ 10000 min | `"string"` + SQL 拼 `X时X分` | 内置 `m` 把 10080 min 显示为 `1 weeks` 英文。stat 面板还要 `reduceOptions.fields="/.*/"` |
+| 时长（drill-down，秒为单位） | 任意秒数 | `"string"` + SQL 拼 `X时X分秒` | Grafana 内置 `clocks` 强制英文 `1h:07m`，不能用 |
 | 能耗 | 50 ~ 500 Wh/km | `"Wh/km"` 字符串 | TeslaMate 上游本身就是字符串，无内置 |
 | 电量（汇总） | 100 ~ 100000 kWh | `"kWh"` 字符串 | `kwatth` 把 8842 kWh 显示为 `8.84 MWh` |
 | 电量（drill-down 单次充电） | 1 ~ 100 kWh | `kwatth` 内置 | 数值小不触发 MWh 换算 |
-| 速度 | 0 ~ 200 km/h | `velocitykmh` 内置 或 `"km/h"` 字符串 | 都不会换算，二选一统一即可 |
+| 速度 | 0 ~ 200 km/h | `velocitykmh` 内置（项目当前多数派 13 处） | 不触发换算；保留 i18n 适应 mile 用户 |
 | 钱（人民币） | 任意 | `"元"` 字符串 | Grafana 没人民币内置 |
 | 单位电费 | 任意 | `"元/度"` 字符串 | 复合单位无内置 |
 | 次数 / 计数 | 任意 | `"none"` + displayName 加 `(次)` | `short` 把 2034 显示为 `2 K` |
@@ -46,14 +47,15 @@ drill-down（CurrentChargeView 当前充电、charge-details 单次充电、driv
 Grafana 内置 `clocks` 单位**强制英文**输出 `1h:07m`，没有中文/i18n 选项。改用 SQL 表达式拼 `"1时07分"` 字符串：
 
 ```sql
--- 输入是 minutes 的场景
+-- 输入是 minutes 的场景（duration_min 必须是 numeric / int，不能是 double precision）
 CASE
   WHEN duration_min < 60 THEN duration_min::int || '分'
   ELSE floor(duration_min/60)::int || '时'
        || lpad((duration_min::int % 60)::text, 2, '0') || '分'
 END AS duration_str
 
--- 输入是 seconds 的场景
+-- 输入是 seconds 的场景（secs 必须是 bigint；从 EXTRACT(EPOCH FROM (end_date - start_date))::bigint 取
+-- 不能用 DATE_PART()，否则 % 触发 mod(double precision, integer) 错误）
 CASE
   WHEN secs < 60 THEN secs || '秒'
   WHEN secs < 3600 THEN (secs/60) || '分' || lpad((secs%60)::text, 2, '0') || '秒'
