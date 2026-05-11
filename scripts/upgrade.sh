@@ -129,19 +129,40 @@ fi
 # 6. 检查 Grafana 必装插件
 # ============================================================
 echo -e "${BLUE}[6/7] 检查 Grafana 插件...${NC}"
+# Pinned 版本与 Dockerfile / migrate-from-official.sh 同步
+VOLKOV_FORM_PANEL_VERSION="6.3.2"
+PROJECT_IMAGE="bswlhbhmt816/teslamate-chinese-dashboards:latest"
 GRAFANA_CONTAINER=$(detect_grafana_container)
 if [ -n "$GRAFANA_CONTAINER" ]; then
-    if docker exec "$GRAFANA_CONTAINER" ls /var/lib/grafana/plugins/volkovlabs-form-panel >/dev/null 2>&1; then
+    if docker exec "$GRAFANA_CONTAINER" test -d /var/lib/grafana/plugins/volkovlabs-form-panel 2>/dev/null; then
         echo -e "${GREEN}  ✓ volkovlabs-form-panel 已装${NC}"
     else
         echo -e "${YELLOW}  ⚠ 分时电价配置仪表盘需要 volkovlabs-form-panel 插件${NC}"
+        echo -e "${YELLOW}    根因：grafana volume 覆盖了镜像里装好的 plugin 目录${NC}"
         read -p "  是否现在安装？[Y/n]: " -n 1 -r install_plugin
         echo ""
         if [[ ! $install_plugin =~ ^[Nn]$ ]]; then
-            docker exec --user root "$GRAFANA_CONTAINER" \
-                grafana cli plugins install volkovlabs-form-panel 6.3.2 >/dev/null 2>&1 \
-                && echo -e "${GREEN}  ✓ 插件已装（重启后生效）${NC}" \
-                || echo -e "${RED}  ✗ 插件安装失败，可手动跑: docker exec ${GRAFANA_CONTAINER} grafana cli plugins install volkovlabs-form-panel 6.3.2${NC}"
+            # 保留 stderr（与 install_sql 同款约定：让用户看到真实错误，如 grafana.com 国内超时）
+            if docker exec --user root "$GRAFANA_CONTAINER" \
+                    grafana cli plugins install volkovlabs-form-panel "$VOLKOV_FORM_PANEL_VERSION" >/dev/null; then
+                echo -e "${GREEN}  ✓ 插件已装（重启后生效）${NC}"
+            else
+                echo -e "${RED}  ✗ grafana cli 装失败（grafana.com 国内常超时）${NC}"
+                echo
+                echo "  两条修复路径任选其一："
+                echo
+                echo "  路径 A — 从镜像本地复制（推荐，无外网依赖）："
+                echo "    docker create --name volkov-tmp $PROJECT_IMAGE"
+                echo "    docker cp volkov-tmp:/var/lib/grafana/plugins/volkovlabs-form-panel /tmp/volkovlabs-form-panel"
+                echo "    docker rm volkov-tmp"
+                echo "    docker cp /tmp/volkovlabs-form-panel $GRAFANA_CONTAINER:/var/lib/grafana/plugins/"
+                echo "    docker exec --user root $GRAFANA_CONTAINER chown -R 472:472 /var/lib/grafana/plugins/volkovlabs-form-panel"
+                echo "    docker restart $GRAFANA_CONTAINER && rm -rf /tmp/volkovlabs-form-panel"
+                echo
+                echo "  路径 B — 重试 grafana cli 看真实错误："
+                echo "    docker exec --user root $GRAFANA_CONTAINER grafana cli plugins install volkovlabs-form-panel $VOLKOV_FORM_PANEL_VERSION"
+                echo "    docker restart $GRAFANA_CONTAINER"
+            fi
         else
             echo "    跳过。「⚡ 分时电价配置」仪表盘会显示空白，但不影响其他面板。"
         fi
