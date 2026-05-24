@@ -1,14 +1,14 @@
 # TeslaMate 全中文版 Grafana 仪表盘
 
-> 给中国 Tesla 车主用的 TeslaMate 数据可视化方案 — 46 个深度汉化仪表盘 + 国内地图源 + 分时电价 + Docker 一键部署。
+> 给中国 Tesla 车主用的 TeslaMate 数据可视化方案 — 45 个深度汉化仪表盘 + 国内地图源 + 分时电价 + Docker 一键部署。
 
 **和官方原版的差异**：
 
 - 🌏 **国内可用** — 9 个地图面板支持高德/谷歌切换，自动 GCJ-02 坐标纠偏（轨迹精准贴道路）
 - ⚡ **分时电价系统** — 配峰平谷电价 + 充电桩性价比榜 + 重算历史充电（v1.5.0+）
 - 📊 **12 个原创分析仪表盘** — 年度报告 / 省钱分析 / 充电健康 / 停车掉电 / 出行规律 / 动能回收 / 驾驶评分 / 多车对比等
-- 🆕 **3 个上游精选移植**（v1.7.0）— 回本分析（电车比油车几年回本）/ 续航衰减 / 速度温度热力图
-- 🇨🇳 **本地化优化** — Docker Hub 镜像直拉无墙、PostgreSQL 18 + Grafana 12 跟齐官方
+- 🆕 **2 个上游精选移植**（v1.7.0）— 回本分析（电车比油车几年回本）/ 速度温度热力图
+- 🇨🇳 **本地化优化** — Docker Hub 镜像直拉无墙、PostgreSQL 与 Grafana 版本跟齐官方
 - ✅ **开箱即用** — `bash simple-deploy.sh` 5 分钟装好，自动检测云主机并加固安全
 
 > **English speakers**: this is a localization for Chinese-speaking Tesla owners. For the original project see [teslamate-org/teslamate](https://github.com/teslamate-org/teslamate).
@@ -64,7 +64,7 @@
 > ### 方法 C — 手动派（自己写 docker compose 套了我们镜像的）
 >
 > ```bash
-> # 1. 拉新镜像（带 volkovlabs-form-panel 插件 + 46 个仪表盘 — 该插件给「⚡ 分时电价配置」面板提供按钮交互）
+> # 1. 拉新镜像（带 volkovlabs-form-panel 插件 + 45 个仪表盘 — 该插件给「⚡ 分时电价配置」面板提供按钮交互）
 > docker compose pull && docker compose up -d
 >
 > # 2. 装 SQL 三件套（坐标函数 + 分时电价 + 性能索引，远程 curl 不用 git clone）
@@ -217,7 +217,7 @@
 - ✅ **开箱即用** - 无需 Docker Hub 账号，直接挂载使用
 - ✅ **一键安装** - 提供多种安装方式，5分钟完成部署
 - ✅ **持续更新** - 通过 git pull 即可获取最新汉化
-- ✅ **深度汉化** - 46 个 Dashboard，含12 个全新原创分析图表
+- ✅ **深度汉化** - 45 个 Dashboard，含12 个全新原创分析图表
 - 🌏 **地图源一键切换（独有）** - 9 个含地图仪表盘顶部加 OSM / 高德 / 高德卫星 / 谷歌 / 谷歌卫星 / Carto 下拉框，秒切，自动 GCJ-02 坐标纠偏（v1.4.2+）
   - 国内用户告别手动改 SQL，海外华人用户也能用谷歌中文路网
 - ✅ **完整适配 TeslaMate 3.0** - 同步官方全部新特性，已验证兼容 Grafana 12.4.0
@@ -226,14 +226,14 @@
 
 | 指标 | 数值 |
 | --- | --- |
-| Dashboard 数量 | 46个 ✅ |
+| Dashboard 数量 | 45 个 ✅ |
 | 内部详情页 | 3个（行程/充电详情）|
 | 文件总大小 | ~1.2MB |
 | 汉化完成度 | 99%+ |
 | 质量等级 | A+ |
 | 最后更新 | 2026-05-06 |
 
-**46 个 Dashboard 深度汉化，持续优化中，开箱即用！** 🎉
+**45 个 Dashboard 深度汉化，持续优化中，开箱即用！** 🎉
 
 ## 📚 使用文档
 
@@ -242,7 +242,7 @@
 | 文档 | 说明 | 适合人群 |
 |------|------|----------|
 | **[新手向导](QUICKSTART.md)** | 从零开始安装，含 FAQ | 完全新手 |
-| **[功能地图](DASHBOARD_MAP.md)** | 46 个 Dashboard 分类导航 | 新用户 |
+| **[功能地图](DASHBOARD_MAP.md)** | 45 个 Dashboard 分类导航 | 新用户 |
 | **[场景速查手册](SCENE_GUIDE.md)** | 什么时候看什么 Dashboard | 所有用户 |
 | **[数据指标手册](METRICS_GUIDE.md)** | 指标解释、正常范围、异常处理 | 进阶用户 |
 | **[故障排查手册](TROUBLESHOOTING.md)** | 遇到问题按症状查解决方案 | 遇到问题时 |
@@ -251,7 +251,7 @@
 
 ## 📁 包含的 Dashboard
 
-**46 个仪表盘** ：核心 4 / 充电 14 / 驾驶 13 / 车辆状态 6 / 其他 9。完整功能列表 + 字段映射 → [DASHBOARD_MAP.md](DASHBOARD_MAP.md)
+**45 个仪表盘** 按主题分布在电池 / 充电 / 驾驶 / 位置 / 车辆状态 / 原创分析 / 系统信息 等分类下。完整功能列表 + 字段映射 → [DASHBOARD_MAP.md](DASHBOARD_MAP.md)
 
 ## 🚀 快速开始
 
@@ -269,7 +269,7 @@
 
 **装完你看到什么**：
 - TeslaMate `http://你的IP:4000` — 粘贴 Tesla token 后开始记录数据
-- Grafana `http://你的IP:3000` — 46 个中文仪表盘开箱可用（行驶 / 充电 / 电池 / 多车 / 年度报告等）
+- Grafana `http://你的IP:3000` — 45 个中文仪表盘开箱可用（行驶 / 充电 / 电池 / 多车 / 年度报告等）
 - 终端打印 3 个密码（Grafana / 数据库 / 加密 key），抄到密码管理器
 
 **前提**：
