@@ -127,6 +127,8 @@
 > ```
 > 详见 [TeslaMate 官方 backup_restore](https://docs.teslamate.org/docs/maintenance/backup_restore) + [我们的 TROUBLESHOOTING「整机迁移」](TROUBLESHOOTING.md)。
 >
+> 想**定期自动备份**？一键安装（`simple-deploy.sh`）装时/升级时会让你三选一：**含密钥（推荐，能独立恢复）/ 不含密钥 / 否**，通用 Linux 自动写好 crontab、群晖给 DSM 步骤。脚本是 `scripts/backup.sh`（导出失败自动中止、绝不删除已有备份、自动保留最近 N 份），默认连含密钥的配置一起备份让备份能独立恢复（不必手抄 `ENCRYPTION_KEY`；备份目录请保持私密）。手动设置见 [TROUBLESHOOTING.md「定期自动备份数据库」](TROUBLESHOOTING.md#db-backup)。
+>
 > ### 升级出问题？完全可逆
 >
 > TeslaMate 任何表都没动，分时电价数据全在我们新建的旁路表。详见 [TROUBLESHOOTING.md「v1.5.0 分时电价升级排错 / 回滚」](TROUBLESHOOTING.md#tou-rollback) | [Telegram 交流群](https://t.me/+BeOASgmvE_IyNzNl)
@@ -384,11 +386,13 @@ sudo systemctl restart docker
 ## 🔄 更新方法
 
 ### 使用镜像方式
-镜像会自动更新，只需重新拉取：
+重新拉取镜像即可更新 Grafana 和仪表盘：
 ```bash
 docker compose pull grafana
 docker compose up -d grafana
 ```
+
+> ⚠️ 以上**只更新 Grafana 镜像和仪表盘**。若某版改动了 SQL（坐标函数 / 分时电价 / 索引），还要重装 SQL 三件套，否则分时电价 / 地图等面板会报错 —— 一键安装用户直接重跑 `simple-deploy.sh`（自动进升级模式装 SQL），其他用户见上方 [升级方法 A/B/C/D](#upgrade-v16)。纯仪表盘版本（如 v1.7.9）用上面两条命令即可。
 
 > ⚠️ **如果更新后 Dashboard 仍显示旧版本**，说明 Grafana 数据卷有缓存残留，执行以下命令重置（车辆数据不受影响）：
 > ```bash
